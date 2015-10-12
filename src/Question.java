@@ -8,6 +8,7 @@ import java.util.Scanner;
  */
 public class Question {
 
+    private String keyword;
     private String theQuestion;
     private String precursor;
     private ArrayList<String> validAnswers;
@@ -16,6 +17,7 @@ public class Question {
 
     public Question()
     {
+        keyword = null;
         theQuestion = null;
         precursor = null;
         validAnswers = null;
@@ -23,8 +25,9 @@ public class Question {
         selected = false;
     }
 
-    public Question(String qText, String precText, ArrayList<String> valAns, Glossary gl)
+    public Question(String key, String qText, String precText, ArrayList<String> valAns, Glossary gl)
     {
+        keyword = key;
         theQuestion = qText;
         precursor = precText;
         validAnswers = valAns;
@@ -32,8 +35,9 @@ public class Question {
         selected = false;
     }
 
-    public Question(String qText, String precText, String... valAns)
+    public Question(String key, String qText, String precText, String... valAns)
     {
+        keyword = key;
         theQuestion = qText;
         precursor = precText;
         setValidAnswers(valAns);
@@ -41,13 +45,24 @@ public class Question {
         selected = false;
     }
 
-    public Question(String qText, String precText, HashMap<String, String> gl, String... valAns)
+    public Question(String key, String qText, String precText, HashMap<String, String> gl, String... valAns)
     {
+        keyword = key;
         theQuestion = qText;
         precursor = precText;
         setValidAnswers(valAns);
         glossary = new Glossary(gl);
         selected = false;
+    }
+
+    public String getKeyword()
+    {
+        return keyword;
+    }
+
+    public void setKeyword(String key)
+    {
+        keyword = key;
     }
 
     public String getQuestionText()

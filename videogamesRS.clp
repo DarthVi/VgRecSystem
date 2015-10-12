@@ -314,16 +314,16 @@
         (rule (if gaming-experience is normale)
               (then best-difficulty is easy with certainty 20))
 
-        (rule (if gaming-experience is elevato)
+        (rule (if gaming-experience is alto)
               (then best-difficulty is hard with certainty 90))
 
-        (rule (if gaming-experience is elevato)
+        (rule (if gaming-experience is alto)
               (then best-difficulty is user-choice with certainty 40))
 
-        (rule (if gaming-experience is elevato)
+        (rule (if gaming-experience is alto)
               (then best-difficulty is medium with certainty 40))
 
-        (rule (if gaming-experience is elevato)
+        (rule (if gaming-experience is alto)
               (then best-difficulty is easy with certainty 20))
 
         (rule (if patience is basso)
@@ -666,19 +666,19 @@
         (rule (if favourite-genre is 4X)
               (then best-graphics is excellent with certainty 25))
 
-        (rule (if gaming-experience is elevato)
+        (rule (if gaming-experience is alto)
               (then best-graphics is awful with certainty 25))
 
-        (rule (if gaming-experience is elevato)
+        (rule (if gaming-experience is alto)
               (then best-graphics is awful with certainty 25))
 
-        (rule (if gaming-experience is elevato)
+        (rule (if gaming-experience is alto)
               (then best-graphics is normal with certainty 25))
 
-        (rule (if gaming-experience is elevato)
+        (rule (if gaming-experience is alto)
               (then best-graphics is good with certainty 25))
 
-        (rule (if gaming-experience is elevato)
+        (rule (if gaming-experience is alto)
               (then best-graphics is excellent with certainty 25))
 
         (rule (if gaming-experience is basso)
