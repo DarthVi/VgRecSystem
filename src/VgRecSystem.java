@@ -3,7 +3,6 @@
  */
 
 import VgExceptions.CannotAskException;
-import VgExceptions.MutableInteger;
 import net.sf.clipsrules.jni.*;
 
 
@@ -355,7 +354,7 @@ public class VgRecSystem
 
             clips.run();
             //debug
-            clips.eval(("(focus RULES)"));
+            clips.eval(("(focus RULES VIDEOGAMES)"));
 
             //debug
             System.out.println(clips.eval("(facts MAIN)").toString());
@@ -380,7 +379,7 @@ public class VgRecSystem
                 for (int i = 0; i < mv.size(); i++) {
                     FactAddressValue fv = (FactAddressValue) mv.get(i);
                     float certRankingVal = ((NumberValue) fv.getFactSlot("certainty")).floatValue();
-                    String gameName = ((LexemeValue) fv.getFactSlot("name")).lexemeValue();
+                    String gameName = ((LexemeValue) fv.getFactSlot("value")).lexemeValue();
 
                     str.println((i+1) + ") " + gameName + ": " + certRankingVal + "%");
                 }

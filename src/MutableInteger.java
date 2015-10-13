@@ -1,5 +1,3 @@
-package VgExceptions;
-
 /**
  * Created by VitoVincenzo on 07/10/2015.
  */
