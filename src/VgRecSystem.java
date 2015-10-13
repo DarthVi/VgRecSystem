@@ -34,6 +34,9 @@ public class VgRecSystem
 
         clips.load("videogamesRS.clp");
         clips.reset();
+        //debug
+        //System.out.println(clips.eval("(facts)").toString());
+        //System.out.println(clips.eval("(get-focus-stack)").toString());
     }
 
     private void resetSelectedArray()
@@ -346,10 +349,18 @@ public class VgRecSystem
 
             assertAttribute(q.getKeyword(), answer);
 
+            //debug
+            System.out.println(clips.eval("(get-focus-stack)").toString());
+            //System.out.println(clips.eval("(facts CHOOSE-FEATURES)").toString());
+
             clips.run();
+            //debug
+            clips.eval(("(focus RULES)"));
 
             //debug
-            System.out.println(clips.eval("(facts)").toString());
+            System.out.println(clips.eval("(facts MAIN)").toString());
+            //System.out.println(clips.eval("(facts CHOOSE-FEATURES)").toString());
+            System.out.println(clips.eval("(get-focus-stack)").toString());
 
             mv = query.findFactSet("(?a attribute)", "eq ?a:name videogame");
         }while(hFunction(mv));
