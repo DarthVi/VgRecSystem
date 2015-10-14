@@ -147,19 +147,17 @@ public class VgRecSystem
 
                 float certainty = ((NumberValue) fv.getFactSlot("certainty")).floatValue();
                 certainty /= 100;
-                float val = 1/(questionsCounter * 0.3f) * certainty;
+                float val = 1/(questionsCounter * 0.115f) * certainty;
 
                 if(val > 0.8f)
                     return false;
-                else
-                    return true;
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        return false;
+        return true;
 
     }
 
@@ -302,6 +300,23 @@ public class VgRecSystem
 
         NUMBER_OF_QUESTIONS--;
     }
+
+    private boolean askMoreQuestion(PrintStream str, Scanner scn)
+    {
+        String userAnswer;
+        str.println("Il sistema ha già ottenuto dei consigli da visualizzare.\n Continuare con altre domande" +
+                " per ottenere risultati più accurati? digitare \"si\" o \"no\". ");
+
+        do {
+            userAnswer = scn.nextLine();
+        }while(!userAnswer.equals("yes") && !userAnswer.equals("no"));
+
+        if(userAnswer.equals("yes"))
+            return true;
+        else
+            return false;
+    }
+
     void interact()
     {
         MutableInteger aIndex = new MutableInteger();
@@ -309,6 +324,7 @@ public class VgRecSystem
         boolean precursorSatisfied = false;
         MultifieldValue mv = null;
         CLEnvironmentQuery query = new CLEnvironmentQuery(clips);
+        boolean repeatCycle;
 
         do
         {
@@ -349,7 +365,7 @@ public class VgRecSystem
             assertAttribute(q.getKeyword(), answer);
 
             //debug
-            System.out.println(clips.eval("(get-focus-stack)").toString());
+            //System.out.println(clips.eval("(get-focus-stack)").toString());
             //System.out.println(clips.eval("(facts CHOOSE-FEATURES)").toString());
 
             clips.run();
@@ -357,12 +373,20 @@ public class VgRecSystem
             clips.eval(("(focus RULES VIDEOGAMES)"));
 
             //debug
-            System.out.println(clips.eval("(facts MAIN)").toString());
+            //System.out.println(clips.eval("(facts MAIN)").toString());
             //System.out.println(clips.eval("(facts CHOOSE-FEATURES)").toString());
-            System.out.println(clips.eval("(get-focus-stack)").toString());
+            //System.out.println(clips.eval("(get-focus-stack)").toString());
 
             mv = query.findFactSet("(?a attribute)", "eq ?a:name videogame");
-        }while(hFunction(mv));
+
+            if(!hFunction(mv) && questionsCounter < NUMBER_OF_QUESTIONS)
+                repeatCycle = askMoreQuestion(System.out, new Scanner(System.in));
+            else if(questionsCounter == NUMBER_OF_QUESTIONS)
+                repeatCycle = false;
+            else
+                repeatCycle = true;
+
+        }while(repeatCycle);
 
     }
 
@@ -370,24 +394,36 @@ public class VgRecSystem
     {
         CLEnvironmentQuery query = new CLEnvironmentQuery(clips);
         MultifieldValue mv = query.findFactSet("(?a attribute)", "eq ?a:name videogame");
+        List<Videogame> vgList = new ArrayList<Videogame>();
 
         if(mv.size() != 0)
         {
             try
             {
-                str.println("Ecco i giochi consigliati: ");
-                for (int i = 0; i < mv.size(); i++) {
+                for (int i = 0; i < mv.size(); i++)
+                {
                     FactAddressValue fv = (FactAddressValue) mv.get(i);
                     float certRankingVal = ((NumberValue) fv.getFactSlot("certainty")).floatValue();
                     String gameName = ((LexemeValue) fv.getFactSlot("value")).lexemeValue();
-
-                    str.println((i+1) + ") " + gameName + ": " + certRankingVal + "%");
+                    vgList.add(new Videogame(gameName, certRankingVal));
                 }
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
+
+            Collections.sort(vgList, new VideogameComparator());
+            Collections.reverse(vgList);
+
+            str.println("Ecco i giochi consigliati: ");
+
+            for(int i = 0; i < vgList.size(); i++)
+            {
+                str.println((i+1) + ") " + vgList.get(i).getTitle() + ": " + vgList.get(i).getCertainty() + "%");
+            }
+
+
         }
     }
 
