@@ -149,7 +149,7 @@ public class VgRecSystem
                 certainty /= 100;
                 float val = 1/(questionsCounter * 0.115f) * certainty;
 
-                if(val > 0.8f)
+                if(val > 0.6f)
                     return false;
 
             } catch (Exception e) {
@@ -309,9 +309,9 @@ public class VgRecSystem
 
         do {
             userAnswer = scn.nextLine();
-        }while(!userAnswer.equals("yes") && !userAnswer.equals("no"));
+        }while(!userAnswer.equals("si") && !userAnswer.equals("no"));
 
-        if(userAnswer.equals("yes"))
+        if(userAnswer.equals("si"))
             return true;
         else
             return false;
@@ -325,6 +325,7 @@ public class VgRecSystem
         MultifieldValue mv = null;
         CLEnvironmentQuery query = new CLEnvironmentQuery(clips);
         boolean repeatCycle;
+        boolean ask = false;
 
         do
         {
@@ -358,33 +359,41 @@ public class VgRecSystem
                     removeQuestion(keyword);
                     precursorSatisfied = false;
                 }
-            }while(!precursorSatisfied);
+            }while(!precursorSatisfied && questionsCounter < NUMBER_OF_QUESTIONS);
 
-            String answer = q.askQuestion(System.out, new Scanner(System.in));
+            if(precursorSatisfied)
+            {
+                String answer = q.askQuestion(System.out, new Scanner(System.in));
 
-            assertAttribute(q.getKeyword(), answer);
+                assertAttribute(q.getKeyword(), answer);
 
-            //debug
-            //System.out.println(clips.eval("(get-focus-stack)").toString());
-            //System.out.println(clips.eval("(facts CHOOSE-FEATURES)").toString());
+                //debug
+                //System.out.println(clips.eval("(get-focus-stack)").toString());
+                //System.out.println(clips.eval("(facts CHOOSE-FEATURES)").toString());
 
-            clips.run();
-            //debug
-            clips.eval(("(focus RULES VIDEOGAMES)"));
+                clips.run();
+                //debug
+                clips.eval(("(focus RULES VIDEOGAMES)"));
 
-            //debug
-            //System.out.println(clips.eval("(facts MAIN)").toString());
-            //System.out.println(clips.eval("(facts CHOOSE-FEATURES)").toString());
-            //System.out.println(clips.eval("(get-focus-stack)").toString());
+                //debug
+                //System.out.println(clips.eval("(facts MAIN)").toString());
+                //System.out.println(clips.eval("(facts CHOOSE-FEATURES)").toString());
+                //System.out.println(clips.eval("(get-focus-stack)").toString());
 
-            mv = query.findFactSet("(?a attribute)", "eq ?a:name videogame");
+                mv = query.findFactSet("(?a attribute)", "eq ?a:name videogame");
 
-            if(!hFunction(mv) && questionsCounter < NUMBER_OF_QUESTIONS)
-                repeatCycle = askMoreQuestion(System.out, new Scanner(System.in));
-            else if(questionsCounter == NUMBER_OF_QUESTIONS)
-                repeatCycle = false;
+                if(!hFunction(mv) && questionsCounter < NUMBER_OF_QUESTIONS && ask == false)
+                {
+                    repeatCycle = askMoreQuestion(System.out, new Scanner(System.in));
+                    ask = true;
+                }
+                else if(questionsCounter == NUMBER_OF_QUESTIONS)
+                    repeatCycle = false;
+                else
+                    repeatCycle = true;
+            }
             else
-                repeatCycle = true;
+                repeatCycle = false;
 
         }while(repeatCycle);
 
