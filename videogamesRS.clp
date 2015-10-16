@@ -130,6 +130,42 @@
         (rule (if main-game-purpose is sfida)
               (then best-genre is puzzle-game with certainty 20))
 
+        (rule (if attitude is intelligenza)
+              (then best-genre is rts with certainty 90))
+
+        (rule (if attitude is intelligenza)
+              (then best-genre is 4X with certainty 80))
+
+        (rule (if attitude is intelligenza)
+              (then best-genre is turn-based-strategy with certainty 80))
+
+        (rule (if gameplay-style is lento)
+              (then best-genre is turn-based-strategy with certainty 80))
+
+        (rule (if gameplay-style is lento)
+              (then best-genre is 4X with certainty 60))
+
+        (rule (if gameplay-style is lento)
+              (then best-genre is rts with certainty 40))
+
+        (rule (if gameplay-style is bilanciato)
+              (then best-genre is turn-based-strategy with certainty 60))
+
+        (rule (if gameplay-style is bilanciato)
+              (then best-genre is 4X with certainty 80))
+
+        (rule (if gameplay-style is bilanciato)
+              (then best-genre is rts with certainty 40))
+
+        (rule (if gameplay-style is frenetico)
+              (then best-genre is rts with certainty 80))
+
+        (rule (if gameplay-style is frenetico)
+              (then best-genre is turn-based-strategy with certainty 30))
+
+        (rule (if gameplay-style is frenetico)
+              (then best-genre is 4X with certainty 30))
+
         ;favourite-genre is
 
         (rule (if favourite-genre is gdr)
@@ -137,6 +173,9 @@
 
         (rule (if favourite-genre is fps)
               (then best-genre is fps with certainty 90))
+
+        (rule (if favourite-genre is rts)
+              (then best-genre is rts with certainty 90))
 
         (rule (if favourite-genre is 4X)
               (then best-genre is 4X with certainty 90))
@@ -1007,8 +1046,14 @@
         (rule (if favourite-genre is fps)
               (then best-gameplay is balanced-speed with certainty 20))
 
+        (rule (if favourite-genre is rts)
+              (then best-gameplay is strategy with certainty 90))
+
         (rule (if patience is alto and main-game-purpose is sfida)
               (then best-gameplay is repetitive with certainty 30))
+
+        (rule (if patience is alto and main-game-purpose is sfida)
+              (then best-gameplay is strategy with certainty 90))
 
         (rule (if patience is alto and main-game-purpose is sfida)
               (then best-gameplay is slow-paced with certainty 20))
@@ -1016,7 +1061,10 @@
         (rule (if patience is alto and main-game-purpose is sfida)
               (then best-gameplay is dull with certainty 10))
 
-        ;TODO: add more rules to categorize frustrating, punishing and challenging gameplay
+        (rule (if patience is medio and main-game-purpose is sfida)
+              (then best-gameplay is strategy with certainty 60))
+
+        ;TODO: add more rules to categorize frustrating, punishing, repetitive and challenging gameplay
 
         )
 
@@ -1050,15 +1098,15 @@
         (slot audio (allowed-values awful normal good excellent no-audio))
         (slot graphics (allowed-values awful normal good excellent) (default good))
         (multislot AI (allowed-values challenging dumb tanked balanced))
-        (multislot gameplay (default any) (allowed-values funny repetitive lively slow-paced fast-paced balanced-speed dull frustrating challenging punishing any))
-        (slot world-design (allowed-values open-world closed-world any) (default any))
+        (multislot gameplay (default any) (allowed-values funny repetitive lively slow-paced fast-paced balanced-speed dull frustrating challenging punishing strategy any))
+        (slot world-design (allowed-values open-world closed-world indifferente any) (default indifferente))
         )
 
 (deffacts VIDEOGAMES::the-vg-list
         (videogame (name Bioshock-Infinite) (genre fps action) (difficulty user-choice) (learning-curve quick-growth) (plot excellent) (plot-feature non-linear paradox coherent no-plot-holes) (audio excellent) (graphics excellent) (AI dumb tanked) (gameplay funny repetitive balanced-speed) (world-design closed-world))
         (videogame (name Remember-Me) (genre action platformer) (difficulty user-choice) (learning-curve quick-growth) (plot excellent) (audio excellent) (graphics excellent) (AI dumb challenging) (gameplay funny repetitive balanced-speed) (world-design closed-world))
-        (videogame (name Age-of-Empires-II) (genre rts) (difficulty user-choice hard) (learning-curve s-curve) (plot no-plot) (audio good) (graphics good) (AI challenging balanced) (gameplay funny))
-        (videogame (name Starcraft-II) (genre rts) (difficulty user-choice hard) (learning-curve s-curve) (plot excellent) (audio excellent) (graphics excellent) (AI challenging balanced) (gameplay funny))
+        (videogame (name Age-of-Empires-II) (genre rts) (difficulty user-choice hard) (learning-curve s-curve) (plot no-plot) (audio good) (graphics good) (AI challenging balanced) (gameplay funny balanced-speed strategy))
+        (videogame (name Starcraft-II) (genre rts) (difficulty user-choice hard) (learning-curve s-curve) (plot excellent) (audio excellent) (graphics excellent) (AI challenging balanced) (gameplay funny balanced-speed strategy))
         (videogame (name Far-Cry-3) (genre fps) (difficulty  user-choice) (learning-curve quick-growth) (plot normal) (audio good) (graphics excellent) (AI challenging balanced) (world-design open-world) (gameplay funny lively))
         (videogame (name Call-of-Juarez-Gunslinger) (genre fps) (difficulty user-choice) (learning-curve quick-growth) (plot good) (audio excellent) (graphics excellent) (AI challenging balanced) (world-design closed-world) (gameplay funny lively))
         (videogame (name The-Witcher-3-Wild-Hunt) (genre gdr) (difficulty user-choice) (learning-curve quick-growth) (plot excellent) (audio excellent) (graphics excellent) (AI challenging) (gameplay funny lively) (world-design open-world))
