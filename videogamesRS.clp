@@ -119,10 +119,10 @@
               (then best-genre is gdr with certainty 20))
 
         (rule (if main-game-purpose is sfida)
-              (then best-genre is rts with certainty 40))
+              (then best-genre is rts with certainty 60))
 
         (rule (if main-game-purpose is sfida)
-              (then best-genre is 4X with certainty 20))
+              (then best-genre is 4X with certainty 40))
 
         (rule (if main-game-purpose is sfida)
               (then best-genre is fps with certainty 20))
@@ -203,7 +203,7 @@
         ;plot-quality and user-plot-feature weight in genre's selection
 
         (rule (if user-plot-feature is imprevedibilita)
-              (then best-genre is avventura-grafica with certainty 60))
+              (then best-genre is avventura-grafica with certainty 70))
 
         (rule (if user-plot-feature is imprevedibilita)
               (then best-genre is interactive-fiction with certainty 40))
@@ -215,7 +215,7 @@
               (then best-genre is action with certainty 25))
 
         (rule (if user-plot-feature is linearita)
-              (then best-genre is action with certainty 50))
+              (then best-genre is action with certainty 70))
 
         (rule (if user-plot-feature is linearita)
             (then best-genre is platformer with certainty 40))
@@ -272,16 +272,16 @@
               (then best-genre is platformer with certainty 50))
 
         (rule (if plot-quality is irrilevante and gaming-experience is alto)
-              (then best-genre is rts with certainty 50))
+              (then best-genre is rts with certainty 70))
 
         (rule (if plot-quality is irrilevante and gaming-experience is alto)
-              (then best-genre is 4X with certainty 40))
+              (then best-genre is 4X with certainty 50))
 
         (rule (if plot-quality is irrilevante and gaming-experience is alto)
               (then best-genre is fps with certainty 40))
 
         (rule (if plot-quality is irrilevante and gaming-experience is normale)
-              (then best-genre is fps with certainty 50))
+              (then best-genre is fps with certainty 60))
 
         (rule (if plot-quality is irrilevante and gaming-experience is normale)
               (then best-genre is rts with certainty 50))
@@ -318,7 +318,7 @@
               (then best-difficulty is hard with certainty 90))
 
         (rule (if gaming-experience is alto)
-              (then best-difficulty is user-choice with certainty 40))
+              (then best-difficulty is user-choice with certainty 80))
 
         (rule (if gaming-experience is alto)
               (then best-difficulty is medium with certainty 40))
@@ -360,7 +360,7 @@
               (then best-learning-curve is linear with certainty 20))
 
         (rule (if patience is alto)
-              (then best-learning-curve is quick-growth with certainty 10))
+              (then best-learning-curve is quick-growth with certainty 20))
 
         (rule (if user-learning-attitude is si)
               (then best-learning-curve is slow-growth with certainty 50))
@@ -390,13 +390,13 @@
               (then best-learning-curve is linear with certainty 80))
 
         (rule (if user-learning-attitude is non-so)
-              (then best-learning-curve is s-curve with certainty 20))
+              (then best-learning-curve is s-curve with certainty 40))
 
         (rule (if user-learning-attitude is non-so)
-              (then best-learning-curve is slow-growth with certainty 20))
+              (then best-learning-curve is slow-growth with certainty 40))
 
         (rule (if user-learning-attitude is non-so)
-              (then best-learning-curve is quick-growth with certainty 20))
+              (then best-learning-curve is quick-growth with certainty 40))
 
         ;rules for picking up best-plot
         (rule (if main-game-purpose is relax and plot-quality is importante)
@@ -436,13 +436,13 @@
               (then best-plot is good with certainty 30))
 
         (rule (if main-game-purpose is divertimento and plot-quality is irrilevante)
-              (then best-plot is normal with certainty 10))
+              (then best-plot is normal with certainty 20))
 
         (rule (if main-game-purpose is divertimento and plot-quality is irrilevante)
-              (then best-plot is excellent with certainty 10))
+              (then best-plot is excellent with certainty 20))
 
         (rule (if main-game-purpose is divertimento and plot-quality is irrilevante)
-              (then best-plot is no-plot with certainty 30))
+              (then best-plot is no-plot with certainty 20))
 
         (rule (if main-game-purpose is divertimento and plot-quality is importante)
               (then best-plot is normal with certainty 40))
@@ -598,10 +598,10 @@
               (then best-graphics is awful with certainty 25))
 
         (rule (if graphics-detail-quality is funzionale)
-              (then best-graphics is normal with certainty 25))
+              (then best-graphics is normal with certainty 30))
 
         (rule (if graphics-detail-quality is funzionale)
-              (then best-graphics is good with certainty 25))
+              (then best-graphics is good with certainty 30))
 
         (rule (if graphics-detail-quality is funzionale)
               (then best-graphics is excellent with certainty 25))
@@ -780,7 +780,7 @@
               (then best-AI is dumb with certainty 10))
 
         (rule (if main-game-purpose is sfida)
-              (then best-AI is challenging with certainty 60))
+              (then best-AI is challenging with certainty 70))
 
         (rule (if main-game-purpose is sfida)
               (then best-AI is tanked with certainty 20))
@@ -816,7 +816,7 @@
               (then best-AI is tanked with certainty 10))
 
         (rule (if attitude is intelligenza)
-              (then best-AI is challenging with certainty 60))
+              (then best-AI is challenging with certainty 70))
 
         (rule (if attitude is intelligenza)
               (then best-AI is balanced with certainty 30))
