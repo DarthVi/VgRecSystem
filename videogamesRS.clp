@@ -1,4 +1,4 @@
-;D:\libri_uni\ICSE\lab\vgRS\videogamesRS.clp
+;C:\Users\VitoVincenzo\IdeaProjects\videogameRS\videogamesRS.clp
 (defmodule MAIN (export ?ALL))
 
 ;;*****************
@@ -119,16 +119,16 @@
               (then best-genre is gdr with certainty 20))
 
         (rule (if main-game-purpose is sfida)
-              (then best-genre is rts with certainty 60))
+              (then best-genre is rts with certainty 80))
 
         (rule (if main-game-purpose is sfida)
-              (then best-genre is 4X with certainty 40))
+              (then best-genre is 4X with certainty 60))
 
         (rule (if main-game-purpose is sfida)
-              (then best-genre is fps with certainty 20))
+              (then best-genre is fps with certainty 30))
 
         (rule (if main-game-purpose is sfida)
-              (then best-genre is puzzle-game with certainty 20))
+              (then best-genre is puzzle-game with certainty 30))
 
         (rule (if attitude is intelligenza)
               (then best-genre is rts with certainty 90))
@@ -138,6 +138,12 @@
 
         (rule (if attitude is intelligenza)
               (then best-genre is turn-based-strategy with certainty 80))
+
+        (rule (if attitude is intelligenza)
+              (then best-genre is puzzle-game with certainty 70))
+
+        (rule (if attitude is intelligenza)
+              (then best-genre is interactive-fiction with certainty 40))
 
         (rule (if gameplay-style is lento)
               (then best-genre is turn-based-strategy with certainty 80))
@@ -327,6 +333,30 @@
 
         (rule (if plot-quality is irrilevante and gaming-experience is normale)
               (then best-genre is action with certainty 50))
+
+        (rule (if plot-quality is irrilevante and patience is alto)
+              (then best-genre is rts with certainty 80))
+
+        (rule (if plot-quality is irrilevante and patience is alto)
+              (then best-genre is puzzle-game with certainty 40))
+
+        (rule (if plot-quality is irrilevante and patience is alto)
+              (then best-genre is 4X with certainty 40))
+
+        (rule (if plot-quality is irrilevante and patience is alto)
+              (then best-genre is turn-based-strategy with certainty 40))
+
+        (rule (if plot-quality is irrilevante and patience is medio)
+              (then best-genre is rts with certainty 40))
+
+        (rule (if plot-quality is irrilevante and patience is medio)
+              (then best-genre is 4X with certainty 80))
+
+        (rule (if plot-quality is irrilevante and patience is medio)
+              (then best-genre is puzzle-game with certainty 60))
+
+        (rule (if plot-quality is irrilevante and patience is medio)
+              (then best-genre is turn-based-strategy with certainty 40))
 
         ;rules for picking up difficulty level and learning curve
         (rule (if gaming-experience is basso)
@@ -952,10 +982,13 @@
               (then best-world-design is open-world with certainty 20))
 
         (rule (if favourite-world-build-expert is indifferente)
-              (then best-world-design is open-world with certainty 50))
+              (then best-world-design is open-world with certainty 10))
 
         (rule (if favourite-world-build-expert is indifferente)
-              (then best-world-design is closed-world with certainty 50))
+              (then best-world-design is closed-world with certainty 10))
+
+        (rule (if favourite-world-build-expert is indifferente)
+              (then best-world-design is indifferente with certainty 90))
 
         (rule (if favourite-world-build-novice is si)
               (then best-world-design is open-world with certainty 80))
@@ -963,23 +996,35 @@
         (rule (if favourite-world-build-novice is si)
               (then best-world-design is closed-world with certainty 20))
 
+         (rule (if favourite-world-build-novice is si)
+              (then best-world-design is indifferente with certainty 20))
+
         (rule (if favourite-world-build-novice is no)
               (then best-world-design is closed-world with certainty 80))
 
         (rule (if favourite-world-build-novice is no)
               (then best-world-design is open-world with certainty 20))
 
+        (rule (if favourite-world-build-novice is no)
+              (then best-world-design is indifferente with certainty 30))
+
         (rule (if favourite-world-build-intermediate is delimitata)
               (then best-world-design is closed-world with certainty 80))
 
         (rule (if favourite-world-build-intermediate is delimitata)
               (then best-world-design is open-world with certainty 20))
+
+        (rule (if favourite-world-build-intermediate is delimitata)
+              (then best-world-design is indifferente with certainty 30))
 
         (rule (if favourite-world-build-intermediate is libera)
               (then best-world-design is open-world with certainty 80))
 
         (rule (if favourite-world-build-intermediate is libera)
               (then best-world-design is closed-world with certainty 20))
+
+        (rule (if favourite-world-build-intermediate is libera)
+              (then best-world-design is indifferente with certainty 30))
 
         (rule (if favourite-genre is gdr)
               (then best-world-design is open-world with certainty 70))
@@ -1106,6 +1151,9 @@
         (videogame (name Bioshock-Infinite) (genre fps action) (difficulty user-choice) (learning-curve quick-growth) (plot excellent) (plot-feature non-linear paradox coherent no-plot-holes) (audio excellent) (graphics excellent) (AI dumb tanked) (gameplay funny repetitive balanced-speed) (world-design closed-world))
         (videogame (name Remember-Me) (genre action platformer) (difficulty user-choice) (learning-curve quick-growth) (plot excellent) (audio excellent) (graphics excellent) (AI dumb challenging) (gameplay funny repetitive balanced-speed) (world-design closed-world))
         (videogame (name Age-of-Empires-II) (genre rts) (difficulty user-choice hard) (learning-curve s-curve) (plot no-plot) (audio good) (graphics good) (AI challenging balanced) (gameplay funny balanced-speed strategy))
+        (videogame (name Civilization-V) (genre 4X turn-based-strategy) (difficulty hard user-choice) (learning-curve linear) (plot no-plot) (audio good) (graphics good) (AI challenging balanced) (gameplay funny strategy))
+        (videogame (name Sins-Of-Solar-Empire) (genre 4X rts turn-based-strategy) (difficulty user-choice hard) (learning-curve s-curve) (plot good) (audio good) (graphics good) (AI challenging balanced) (gameplay funny strategy))
+        (videogame (name Crusader-Kings-2) (genre 4X turn-based-strategy) (difficulty user-choice) (learning-curve s-curve) (plot excellent) (audio excellent) (graphics excellent) (AI challenging balanced) (gameplay funny lively strategy))
         (videogame (name Starcraft-II) (genre rts) (difficulty user-choice hard) (learning-curve s-curve) (plot excellent) (audio excellent) (graphics excellent) (AI challenging balanced) (gameplay funny balanced-speed strategy))
         (videogame (name Far-Cry-3) (genre fps) (difficulty  user-choice) (learning-curve quick-growth) (plot normal) (audio good) (graphics excellent) (AI challenging balanced) (world-design open-world) (gameplay funny lively))
         (videogame (name Call-of-Juarez-Gunslinger) (genre fps) (difficulty user-choice) (learning-curve quick-growth) (plot good) (audio excellent) (graphics excellent) (AI challenging balanced) (world-design closed-world) (gameplay funny lively))

@@ -234,7 +234,7 @@ public class VgRecSystem
         glossaryMap.put("closed-world", "scenario in cui i movimenti del giocatore sono limitati e i livelli sono strutturati in una specifica area di gioco");
 
         Question favouriteWorldBuildExpert = new Question("favourite-world-build-expert", "Per quanto riguarda l'ambiente di gioco, cosa preferisci fra le seguenti alternative: open-world, closed-world, indifferente?", "gaming-experience is alto", glossaryMap, "open-world", "closed-world", "indifferente");
-        Question favouriteWorldBuildIntermediate = new Question("favourite-world-build-intermediate", "Ti piacciono livelli con ambientazione ben delimitata o libera da esplorare? delimitata, libera", "gaming-experience is normale", "delimitata", "libera");
+        Question favouriteWorldBuildIntermediate = new Question("favourite-world-build-intermediate", "Ti piacciono livelli con ambientazione ben delimitata o libera da esplorare? delimitata, libera", "gaming-experience is medio", "delimitata", "libera");
         Question favouriteWorldBuildNovice = new Question("favourite-world-build-novice", "Ti piace esplorare vaste ambientazioni? si, no ", "gaming-experience is basso", "si", "no");
 
         glossaryMap = new HashMap<String, String>();
