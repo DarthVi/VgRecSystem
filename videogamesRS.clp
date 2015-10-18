@@ -95,6 +95,9 @@
               (then best-genre is action with certainty 60))
 
         (rule (if main-game-purpose is relax and patience is basso)
+              (then best-genre is avventura-grafica with certainty 60))
+
+        (rule (if main-game-purpose is relax and patience is basso)
               (then best-genre is fps with certainty 40))
 
         (rule (if main-game-purpose is relax and patience is medio)
@@ -154,6 +157,12 @@
         (rule (if gameplay-style is lento)
               (then best-genre is rts with certainty 40))
 
+        (rule (if gameplay-style is lento)
+              (then best-genre is avventura-grafica with certainty 40))
+
+        (rule (if gameplay-style is lento)
+              (then best-genre is interactive-fiction with certainty 40))
+
         (rule (if gameplay-style is bilanciato)
               (then best-genre is turn-based-strategy with certainty 60))
 
@@ -171,6 +180,9 @@
 
         (rule (if gameplay-style is frenetico)
               (then best-genre is 4X with certainty 30))
+
+        (rule (if gameplay-style is frenetico)
+              (then best-genre is action with certainty 30))
 
         ;favourite-genre is
 
@@ -287,7 +299,7 @@
               (then best-genre is punta-e-clicca with certainty 30))
 
         (rule (if user-plot-feature is coerenza)
-              (then best-genre is avventura-grafica with certainty 10))
+              (then best-genre is avventura-grafica with certainty 30))
 
         (rule (if user-plot-feature is coerenza)
               (then best-genre is platformer with certainty 10))
@@ -325,14 +337,26 @@
         (rule (if plot-quality is irrilevante and gaming-experience is alto)
               (then best-genre is fps with certainty 40))
 
-        (rule (if plot-quality is irrilevante and gaming-experience is normale)
+        (rule (if plot-quality is irrilevante and gaming-experience is medio)
               (then best-genre is fps with certainty 60))
 
-        (rule (if plot-quality is irrilevante and gaming-experience is normale)
+        (rule (if plot-quality is irrilevante and gaming-experience is medio)
               (then best-genre is rts with certainty 50))
 
-        (rule (if plot-quality is irrilevante and gaming-experience is normale)
+        (rule (if plot-quality is irrilevante and gaming-experience is medio)
               (then best-genre is action with certainty 50))
+
+        (rule (if plot-quality is importante and gaming-experience is medio)
+              (then best-genre is avventura-grafica with certainty 60))
+
+        (rule (if plot-quality is importante and gaming-experience is medio)
+              (then best-genre is interactive-fiction with certainty 30))
+
+        (rule (if plot-quality is importante and gaming-experience is medio)
+              (then best-genre is punta-e-clicca with certainty 40))
+
+        (rule (if plot-quality is importante and gaming-experience is medio)
+              (then best-genre is puzzle-game with certainty 20))
 
         (rule (if plot-quality is irrilevante and patience is alto)
               (then best-genre is rts with certainty 80))
@@ -371,16 +395,16 @@
         (rule (if gaming-experience is basso)
               (then best-difficulty is user-choice with certainty 20))
 
-        (rule (if gaming-experience is normale)
+        (rule (if gaming-experience is medio)
               (then best-difficulty is user-choice with certainty 70))
 
-        (rule (if gaming-experience is normale)
+        (rule (if gaming-experience is medio)
               (then best-difficulty is medium with certainty 60))
 
-        (rule (if gaming-experience is normale)
+        (rule (if gaming-experience is medio)
               (then best-difficulty is hard with certainty 30))
 
-        (rule (if gaming-experience is normale)
+        (rule (if gaming-experience is medio)
               (then best-difficulty is easy with certainty 20))
 
         (rule (if gaming-experience is alto)
@@ -762,16 +786,16 @@
         (rule (if gaming-experience is basso)
               (then best-graphics is excellent with certainty 50))
 
-        (rule (if gaming-experience is normale)
+        (rule (if gaming-experience is medio)
               (then best-graphics is awful with certainty 10))
 
-        (rule (if gaming-experience is normale)
+        (rule (if gaming-experience is medio)
               (then best-graphics is normal with certainty 20))
 
-        (rule (if gaming-experience is normale)
+        (rule (if gaming-experience is medio)
               (then best-graphics is good with certainty 30))
 
-        (rule (if gaming-experience is normale)
+        (rule (if gaming-experience is medio)
               (then best-graphics is excellent with certainty 40))
         
         ;rules for picking up best AI
@@ -1159,9 +1183,10 @@
         (videogame (name Call-of-Juarez-Gunslinger) (genre fps) (difficulty user-choice) (learning-curve quick-growth) (plot good) (audio excellent) (graphics excellent) (AI challenging balanced) (world-design closed-world) (gameplay funny lively))
         (videogame (name The-Witcher-3-Wild-Hunt) (genre gdr) (difficulty user-choice) (learning-curve quick-growth) (plot excellent) (audio excellent) (graphics excellent) (AI challenging) (gameplay funny lively) (world-design open-world))
         (videogame (name Dark-Souls) (genre gdr) (difficulty hard) (learning-curve slow-growth) (plot excellent) (audio excellent) (graphics good) (AI challenging) (gameplay funny frustrating punishing slow-paced challenging) (world-design open-world))
-        (videogame (name Farenheit) (genre avventura-grafica) (difficulty user-choice) (learning-curve quick-growth) (plot excellent) (audio normal) (AI balanced) (gameplay funny) (graphics normal) (world-design closed-world))
+        (videogame (name Farenheit) (genre avventura-grafica) (difficulty user-choice) (learning-curve quick-growth) (plot excellent) (audio normal) (AI balanced) (gameplay slow-paced) (graphics normal) (world-design closed-world))
         (videogame (name Bastion) (genre platformer) (difficulty user-choice) (learning-curve quick-growth) (plot excellent) (audio excellent) (AI challenging balanced) (graphics excellent) (gameplay funny repetitive) (world-design closed-world))
-
+        (videogame (name The-Walking-Dead) (genre avventura-grafica) (difficulty easy user-choice) (learning-curve quick-growth) (plot excellent) (audio good) (graphics good) (AI balanced) (gameplay slow-paced) (world-design closed-world))
+        (videogame (name Beyond-Two-Souls) (genre avventura-grafica) (difficulty easy) (learning-curve quick-growth) (plot excellent) (audio excellent) (graphics excellent) (AI balanced) (gameplay slow-paced balanced-speed) (world-design closed-world))
 
 
         )
