@@ -158,16 +158,19 @@
               (then best-genre is rts with certainty 40))
 
         (rule (if gameplay-style is lento)
-              (then best-genre is avventura-grafica with certainty 40))
+              (then best-genre is avventura-grafica with certainty 60))
 
         (rule (if gameplay-style is lento)
-              (then best-genre is interactive-fiction with certainty 40))
+              (then best-genre is interactive-fiction with certainty 50))
 
         (rule (if gameplay-style is bilanciato)
               (then best-genre is turn-based-strategy with certainty 60))
 
         (rule (if gameplay-style is bilanciato)
               (then best-genre is 4X with certainty 80))
+
+        (rule (if gameplay-style is bilanciato)
+              (then best-genre is avventura-grafica with certainty 50))
 
         (rule (if gameplay-style is bilanciato)
               (then best-genre is rts with certainty 40))
@@ -222,41 +225,6 @@
         (rule (if favourite-genre is avventura-grafica)
               (then best-genre is avventura-grafica with certainty 90))
 
-        ;favourite-genre is-not
-
-        (rule (if favourite-genre is-not gdr)
-              (then best-genre is gdr with certainty 1))
-
-        (rule (if favourite-genre is-not fps)
-              (then best-genre is fps with certainty 1))
-
-        (rule (if favourite-genre is-not 4X)
-              (then best-genre is 4X with certainty 1))
-
-        (rule (if favourite-genre is-not turn-based-strategy)
-              (then best-genre is turn-based-strategy with certainty 1))
-
-        (rule (if favourite-genre is-not platformer)
-              (then best-genre is platformer with certainty 1))
-
-        (rule (if favourite-genre is-not puzzle-game)
-              (then best-genre is puzzle-game with certainty 1))
-
-        (rule (if favourite-genre is-not action)
-              (then best-genre is action with certainty 1))
-
-        (rule (if favourite-genre is-not picchiaduro)
-              (then best-genre is picchiaduro with certainty 1))
-
-        (rule (if favourite-genre is-not punta-e-clicca)
-              (then best-genre is punta-e-clicca with certainty 1))
-
-        (rule (if favourite-genre is-not interactive-fiction)
-              (then best-genre is interactive-fiction with certainty 1))
-
-        (rule (if favourite-genre is-not avventura-grafica)
-              (then best-genre is avventura-grafica with certainty 1))
-
         ;plot-quality and user-plot-feature weight in genre's selection
 
         (rule (if user-plot-feature is imprevedibilita)
@@ -293,7 +261,7 @@
               (then best-genre is fps with certainty 20))
 
         (rule (if user-plot-feature is coerenza)
-              (then best-genre is fps with certainty 50))
+              (then best-genre is fps with certainty 30))
 
         (rule (if user-plot-feature is coerenza)
               (then best-genre is punta-e-clicca with certainty 30))
