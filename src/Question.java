@@ -1,6 +1,7 @@
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -117,13 +118,13 @@ public class Question {
 
     private void promptQuestionGlossary(PrintStream str)
     {
-        if(!glossary.isEmpty())
+        if(glossary != null)
         {
             str.println("Glossario per la domanda:\n");
 
             for (String s : glossary.keySet())
             {
-                str.println(s + ": " + glossary.getDefinition(s) + "\n");
+                str.println(s.replace("-", " ") + ": " + glossary.getDefinition(s) + "\n");
             }
         }
         else
@@ -133,18 +134,32 @@ public class Question {
     public String askQuestion(PrintStream str, Scanner scn)
     {
         String userAnswer = null;
-        int answerIndex = -1;
 
-        while(answerIndex < 0)
+        str.println(getQuestionText());
+
+        for(int i = 0; i < getValidAnswers().size(); i++)
         {
-            str.println(getQuestionText());
+            str.println(i + 1 + ")" + getValidAnswers().get(i).replace("-", " "));
+        }
 
+        while(userAnswer == null)
+        {
             userAnswer = scn.nextLine();
 
             if (userAnswer.equals("?"))
+            {
                 promptQuestionGlossary(str);
+                userAnswer = null;
+            }
+            else if (userAnswer.equals(""))
+                userAnswer = null;
+            else
+            {
+                int ansInt = Integer.parseInt(userAnswer);
 
-            answerIndex = getValidAnswers().indexOf(userAnswer);
+                if(ansInt >= 1 && ansInt <= getValidAnswers().size())
+                    userAnswer = getValidAnswers().get(ansInt - 1);
+            }
         }
 
         return userAnswer;

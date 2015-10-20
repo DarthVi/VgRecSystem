@@ -596,49 +596,49 @@
               (then best-plot is no-plot with certainty 10))        
 
         ;rules for picking up audio quality
-        (rule (if user-audio-quality is tante)
+        (rule (if user-audio-quality is piu'-di-20)
               (then best-audio is excellent with certainty 70))
 
-        (rule (if user-audio-quality is tante)
+        (rule (if user-audio-quality is piu'-di-20)
               (then best-audio is good with certainty 30))
 
-        (rule (if user-audio-quality is tante)
+        (rule (if user-audio-quality is piu'-di-20)
               (then best-audio is normal with certainty 20))
 
-        (rule (if user-audio-quality is tante)
+        (rule (if user-audio-quality is piu'-di-20)
               (then best-audio is awful with certainty 10))
 
-        (rule (if user-audio-quality is tante)
+        (rule (if user-audio-quality is piu'-di-20)
               (then best-audio is no-audio with certainty 5))
 
-        (rule (if user-audio-quality is poche)
+        (rule (if user-audio-quality is fra-10-e-20)
               (then best-audio is excellent with certainty 20))
 
-        (rule (if user-audio-quality is poche)
+        (rule (if user-audio-quality is fra-10-e-20)
               (then best-audio is normal with certainty 40))
 
-        (rule (if user-audio-quality is poche)
+        (rule (if user-audio-quality is fra-10-e-20)
               (then best-audio is good with certainty 40))
 
-        (rule (if user-audio-quality is poche)
+        (rule (if user-audio-quality is fra-10-e-20)
               (then best-audio is awful with certainty 20))
 
-        (rule (if user-audio-quality is poche)
+        (rule (if user-audio-quality is fra-10-e-20)
               (then best-audio is no-audio with certainty 10))
 
-        (rule (if user-audio-quality is mai)
+        (rule (if user-audio-quality is meno-di-10)
               (then best-audio is no-audio with certainty 20))
 
-        (rule (if user-audio-quality is mai)
+        (rule (if user-audio-quality is meno-di-10)
               (then best-audio is awful with certainty 20))
 
-        (rule (if user-audio-quality is mai)
+        (rule (if user-audio-quality is meno-di-10)
               (then best-audio is normal with certainty 50))
 
-        (rule (if user-audio-quality is mai)
+        (rule (if user-audio-quality is meno-di-10)
               (then best-audio is good with certainty 30))
 
-        (rule (if user-audio-quality is mai)
+        (rule (if user-audio-quality is meno-di-10)
               (then best-audio is excellent with certainty 20))
 
         ;rules for picking up graphics

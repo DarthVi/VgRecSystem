@@ -185,8 +185,8 @@ public class VgRecSystem
         questionByGenre =  (HashMap<String, Question>[]) Array.newInstance(HashMap.class, Attribute.values().length);
 
         //in questa sezione vengono definite le varie domande e i glossari
-        Question mainGamePurpose = new Question("main-game-purpose", "Per te il gioco e' fonte di relax, sfida o divertimento?", null, "relax", "sfida", "divertimento");
-        Question patience = new Question("patience", "Valuta il tuo grado di pazienza: alto, medio o basso?", null, "alto", "medio", "basso");
+        Question mainGamePurpose = new Question("main-game-purpose", "Per te il gioco e' fonte di... ?", null, "relax", "sfida", "divertimento");
+        Question patience = new Question("patience", "Valuta il tuo grado di pazienza", null, "alto", "medio", "basso");
 
         glossaryMap = new HashMap<String, String>();
         glossaryMap.put("gdr", "gioco di ruolo");
@@ -200,9 +200,9 @@ public class VgRecSystem
         glossaryMap.put("picchiaduro", "videogioco le cui meccaniche sono basate prevalentemente sul combattimento fra personaggi, generalmente in una arena");
         glossaryMap.put("punta-e-clicca", "gioco in cui il giocatore deve dare ordini al personaggio cliccando su determinate parti sensibili dela visuale.\nI giochi di questo tipo hanno generalmente una forte componente narrativa");
         glossaryMap.put("interactive-fiction", "videogioco in cui il giocatore deve dare ordini digitando comandi da tastiera.\nGiochi di questo tipo hanno generalmente una forte componente narrativa");
-        glossaryMap.put("avventura-grafica", "videogioco molto simile ad un film interattivo.\n L'interattivit� � limitata rispetto agli altri generi, ma � comunque presente, a vantaggio di una forte componente narrativa e una trama elaborata");
+        glossaryMap.put("avventura-grafica", "videogioco molto simile ad un film interattivo.\n L'interattivita' e' limitata rispetto agli altri generi, ma � comunque presente, a vantaggio di una forte componente narrativa e una trama elaborata");
 
-        Question favouriteGenre = new Question("favourite-genre", "Scegliere il genere preferito in assoluto fra quelli elencati: gdr, fps, rts, 4X, turn-based-strategy, platformer, puzzle-game, action, picchiaduro, punta-e-clicca, interactive-fiction, avventura-grafica", "gaming-experience is alto", glossaryMap,
+        Question favouriteGenre = new Question("favourite-genre", "Scegliere il genere preferito in assoluto fra quelli elencati:", "gaming-experience is alto", glossaryMap,
                 "gdr", "fps", "rts", "4X", "turn-based-strategy", "platformer", "puzzle-game", "action",
                 "picchiaduro", "punta-e-clicca", "interactive-fiction", "avventura-grafica");
 
@@ -213,35 +213,35 @@ public class VgRecSystem
         glossaryMap.put("paradossi", "trama che sfrutta vari paradossi, come i paradossi temporali (viaggi nel tempo ad esempio), paradossi sulla rappresentazione dello spazio e altro");
         glossaryMap.put("imprevedibilita'", "trama i cui eventi sono difficili da prevedere");
 
-        Question userPlotFeature = new Question("user-plot-feature", "Quale di queste feature e' di maggiore importanza per la trama? Coerenza, linearita', non-linearita', paradossi, imprevedibilita'",
+        Question userPlotFeature = new Question("user-plot-feature", "Quale di queste feature e' di maggiore importanza per la trama?",
                 "plot-quality is importante", glossaryMap, "coerenza", "linearita'", "non-linearita'", "paradossi", "imprevedibilita'");
-        Question plotQuality = new Question("plot-quality", "Il livello di qualita' della trama e': importante, irrilevante?", null, "importante", "irrilevante");
-        Question gamingExperience = new Question("gaming-experience", "Qual e' il tuo livello di esperienza con i videogioco? alto, medio, basso?", null, "alto", "medio", "basso");
-        Question userLearningAttitude = new Question("user-learning-attitude", "Riesci ad apprendere velocemente nuove informazioni e nuove meccaniche di funzionamento del gioco?\n si, no, non-so", null,
+        Question plotQuality = new Question("plot-quality", "Il livello di qualita' della trama e'... ?", null, "importante", "irrilevante");
+        Question gamingExperience = new Question("gaming-experience", "Qual e' il tuo livello di esperienza con i videogioco?", null, "alto", "medio", "basso");
+        Question userLearningAttitude = new Question("user-learning-attitude", "Riesci ad apprendere velocemente nuove informazioni e nuove meccaniche di funzionamento del gioco?", null,
                 "si", "no", "non-so");
-        Question userAudioQuality = new Question("user-audio-quality", "Quante volte sei rimasto colpito da una buona colonna sonora? Tante, poche o mai?", null, "tante", "poche", "mai");
+        Question userAudioQuality = new Question("user-audio-quality", "All'incirca quante colonne sonore tratte da videogiochi ricordi?", null, "meno-di-10", "fra-10-e-20", "piu'-di-20");
 
         glossaryMap = new HashMap<String, String>();
-        glossaryMap.put("realismo", "grafica fotorealistica, ossia il pi� possibile simile alla realt�");
+        glossaryMap.put("realismo", "grafica fotorealistica, ossia il piu' possibile simile alla realt�");
         glossaryMap.put("funzionale", "grafica non necessariamente fotorealistica, ma comunque adatta alle caratteristiche del gioco");
-        Question graphicsDetailQuality = new Question("graphics-detail-quality", "Per quanto riguarda la grafica, cosa e' piu' importante, il realismo o la grafica funzionale al contesto di gioco? (risposte possibili: realismo, funzionale)", null, glossaryMap, "realismo", "funzionale");
+        Question graphicsDetailQuality = new Question("graphics-detail-quality", "Per quanto riguarda la grafica, cosa e' piu' importante, il realismo o la grafica funzionale al contesto di gioco?", null, glossaryMap, "realismo", "funzionale");
 
-        Question aiImplementation = new Question("ai-implementation", "Dai molto peso all'implementazione dell'intelligenza artificiale? si, no, non-so", "gaming-experience is alto", "si", "no", "non-so");
-        Question attitude = new Question("attitude", "Quale fra questi e' il tuo principale strumento per risolvere le situazioni critiche: intelligenza, furbizia, forza-bruta, mix fra le precedenti abilita'", null, "intelligenza", "furbizia", "forza-bruta", "mix");
+        Question aiImplementation = new Question("ai-implementation", "Dai molto peso all'implementazione dell'intelligenza artificiale?", "gaming-experience is alto", "si", "no", "non-so");
+        Question attitude = new Question("attitude", "Quale fra questi e' il tuo principale strumento per risolvere le situazioni critiche?", null, "intelligenza", "furbizia", "forza-bruta", "mix");
 
         glossaryMap = new HashMap<String, String>();
-        glossaryMap.put("open-world", "scenario in cui e' possibile muoversi liberamente; c'� una unica mappa con un unico confine, i livelli non sono chiusi\ne delimitati in una specifica area");
+        glossaryMap.put("open-world", "scenario in cui e' possibile muoversi liberamente; c'e' una unica mappa con un unico confine, i livelli non sono chiusi\ne delimitati in una specifica area");
         glossaryMap.put("closed-world", "scenario in cui i movimenti del giocatore sono limitati e i livelli sono strutturati in una specifica area di gioco");
 
-        Question favouriteWorldBuildExpert = new Question("favourite-world-build-expert", "Per quanto riguarda l'ambiente di gioco, cosa preferisci fra le seguenti alternative: open-world, closed-world, indifferente?", "gaming-experience is alto", glossaryMap, "open-world", "closed-world", "indifferente");
-        Question favouriteWorldBuildIntermediate = new Question("favourite-world-build-intermediate", "Ti piacciono livelli con ambientazione ben delimitata o libera da esplorare? delimitata, libera", "gaming-experience is medio", "delimitata", "libera");
-        Question favouriteWorldBuildNovice = new Question("favourite-world-build-novice", "Ti piace esplorare vaste ambientazioni? si, no ", "gaming-experience is basso", "si", "no");
+        Question favouriteWorldBuildExpert = new Question("favourite-world-build-expert", "Per quanto riguarda l'ambiente di gioco, cosa preferisci fra le seguenti alternative?", "gaming-experience is alto", glossaryMap, "open-world", "closed-world", "indifferente");
+        Question favouriteWorldBuildIntermediate = new Question("favourite-world-build-intermediate", "Ti piacciono livelli con ambientazione ben delimitata o libera da esplorare?", "gaming-experience is medio", "delimitata", "libera");
+        Question favouriteWorldBuildNovice = new Question("favourite-world-build-novice", "Ti piace esplorare vaste ambientazioni?", "gaming-experience is basso", "si", "no");
 
         glossaryMap = new HashMap<String, String>();
         glossaryMap.put("frenetico", "meccaniche di gioco che richiedono una veloce risposta e reazione da parte del giocatore, mettendone alla prova i riflessi");
-        glossaryMap.put("bilanciato", "meccaniche di gioco basate su un compromesso fra una tempestiva reazione dell'utente e la possibilit� di elaborare i piani d'azione con pi� calma");
+        glossaryMap.put("bilanciato", "meccaniche di gioco basate su un compromesso fra una tempestiva reazione dell'utente e la possibilita' di elaborare i piani d'azione con piu' calma");
         glossaryMap.put("lento", "meccaniche di gioco basate sull'attenta pianificazione delle interazioni dell'utente, le quali devono solitamente essere strategiche.\nNe consegue che il gioco permette al giocatore di prendersi il tempo per riflettere");
-        Question gameplayStyle = new Question("gameplay-style", "Selezionare lo stile di gioco preferito: frenetico, bilanciato, lento", null, glossaryMap, "frenetico", "bilanciato", "lento");
+        Question gameplayStyle = new Question("gameplay-style", "Selezionare lo stile di gioco preferito", null, glossaryMap, "frenetico", "bilanciato", "lento");
 
         //in questa sezione viene avvalorata la struttura dati che mappa gli attributi target alle varie domande che li riguardano
         questionByGenre[Attribute.valueOf(Attribute.BEST_GENRE)] = new HashMap<String, Question>();
