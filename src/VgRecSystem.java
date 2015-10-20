@@ -222,11 +222,11 @@ public class VgRecSystem
         Question userAudioQuality = new Question("user-audio-quality", "All'incirca quante colonne sonore tratte da videogiochi ricordi?", null, "meno-di-10", "fra-10-e-20", "piu'-di-20");
 
         glossaryMap = new HashMap<String, String>();
-        glossaryMap.put("realismo", "grafica fotorealistica, ossia il piu' possibile simile alla realt�");
+        glossaryMap.put("realismo", "grafica fotorealistica, ossia il piu' possibile simile alla realta'");
         glossaryMap.put("funzionale", "grafica non necessariamente fotorealistica, ma comunque adatta alle caratteristiche del gioco");
         Question graphicsDetailQuality = new Question("graphics-detail-quality", "Per quanto riguarda la grafica, cosa e' piu' importante, il realismo o la grafica funzionale al contesto di gioco?", null, glossaryMap, "realismo", "funzionale");
 
-        Question aiImplementation = new Question("ai-implementation", "Dai molto peso all'implementazione dell'intelligenza artificiale?", "gaming-experience is alto", "si", "no", "non-so");
+        Question aiImplementation = new Question("ai-implementation", "Dai molto peso alla reattivita' dei nemici in gioco e alle loro strategie utilizzate (\"intelligenza\" usata per ostacolarti)?", "gaming-experience is alto", "si", "no", "non-so");
         Question attitude = new Question("attitude", "Quale fra questi e' il tuo principale strumento per risolvere le situazioni critiche?", null, "intelligenza", "furbizia", "forza-bruta", "mix");
 
         glossaryMap = new HashMap<String, String>();
