@@ -6,6 +6,7 @@ import VgExceptions.CannotAskException;
 import net.sf.clipsrules.jni.*;
 
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.*;
@@ -31,9 +32,10 @@ public class VgRecSystem
 
         clips = new Environment();
 
-        clips.load("videogamesRS.clp");
+        clips.loadFromResource("/clp/videogamesRS.clp");
         clips.reset();
         //debug
+        //System.out.println("clips reset done");
         //System.out.println(clips.eval("(facts)").toString());
         //System.out.println(clips.eval("(get-focus-stack)").toString());
     }
