@@ -2,6 +2,8 @@
  * Created by Vito Vincenzo Covella on 16/08/2015.
  */
 
+import DataAccess.UserData;
+import Security.Authentication;
 import VgExceptions.CannotAskException;
 import net.sf.clipsrules.jni.*;
 
@@ -375,7 +377,7 @@ public class VgRecSystem
 
                 clips.run();
                 //debug
-                clips.eval(("(focus RULES VIDEOGAMES)"));
+                clips.eval(("(focus MAIN RULES VIDEOGAMES)"));
 
                 //debug
                 //System.out.println(clips.eval("(facts MAIN)").toString());
@@ -444,15 +446,152 @@ public class VgRecSystem
         clips.assertString(toAssert);
     }
 
+    public int askForAuthentication()
+    {
+        Scanner sc = new Scanner(System.in);
+        int choice;
+
+        System.out.println("Come si desidare usare il sistema?");
+        System.out.println("1) Registrazione: il sistema registrerà nome utente e password, per poi continuare\n" +
+                "con il normale funzionamento. I dati utente verranno usati per salvere i file della profilazione\n" +
+                "(dati di login, dati con il profilo utente).");
+        System.out.println("2) Login: il sistema chiederà le credenziali dell'utente (username e password) per poi chiedere\n" +
+                "se usare il sistema usando i dati della precedente sessione o sovrascriverli con dati provenienti da una nuova" +
+                "sessione di domande fatte all'utente stesso");
+        System.out.println("3) Ospite: il sistema non salverà alcun dato dell'utente");
+
+        do {
+            String userAnswer = sc.nextLine();
+            choice = Integer.parseInt(userAnswer);
+        }while(choice < 1 && choice > 3);
+
+        return choice;
+    }
+
+    public void saveUserProfileToFile(UserData userdata)
+    {
+        CLEnvironmentQuery envquery = new CLEnvironmentQuery(clips);
+        MultifieldValue mv = envquery.retrieveUserProfile();
+        userdata.clearFile();
+
+        for (int i = 0; i < mv.size(); i++)
+        {
+            FactAddressValue fv = (FactAddressValue) mv.get(i);
+            try {
+                String atName = ((LexemeValue) fv.getFactSlot("name")).lexemeValue();
+                String atValue = ((LexemeValue) fv.getFactSlot("value")).lexemeValue();
+                float certRankingVal = ((NumberValue) fv.getFactSlot("certainty")).floatValue();
+
+                String profilePiece = "(attribute (name " + atName + ") (value " + atValue + ") (certainty " + Float.toString(certRankingVal) + "))";
+                userdata.println(profilePiece);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void assertUserProfile(UserData userdata)
+    {
+        String str;
+
+        try {
+            while((str = userdata.readLine()) != null)
+            {
+                clips.assertString(str);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void runWithProfile()
+    {
+        clips.eval("(focus MAIN RULES VIDEOGAMES)");
+        clips.run();
+    }
+
     public static void main(String[]  args)
     {
         VgRecSystem rec = new VgRecSystem();
-        //System.out.println(rec.clips.eval("(facts)").toString());
-        //System.out.println(rec.clips.eval("(get-focus)").toString());
-        //System.out.println(rec.clips.eval("(get-deftemplate-list)").toString());
-        rec.interact();
-        rec.printSuggestions(System.out);
-        //Question test line: System.out.println(rec.questionByGenre[Attribute.valueOf(Attribute.BEST_GENRE)].get("patience"));
+        int choice = rec.askForAuthentication();
+        Scanner sc = new Scanner(System.in);
+        String username = null;
+        String password = null;
+
+        switch (choice)
+        {
+            case 1:
+                System.out.println("Username: ");
+                username = sc.nextLine();
+                username.replace(" ", "");
+                System.out.println("Password: ");
+                password = sc.nextLine();
+                password.replace(" ", "");
+
+                if(Authentication.addUser(username, password) == 1)
+                {
+                    System.out.println("Registrazione effettuata con successo!");
+
+                    rec.interact();
+
+                    UserData ud = new UserData(username);
+                    rec.saveUserProfileToFile(ud);
+                    ud.closeUserData();
+
+                    rec.printSuggestions(System.out);
+                }
+                else
+                    System.out.println("Si è verificato un problema: username già esistente o errore di sistema.\n" +
+                            "Chiudere il programma e riprovare con un altro username.");
+                break;
+
+            case 2:
+                System.out.println("Username: ");
+                username = sc.nextLine();
+                username.replace(" ", "");
+                System.out.println("Password: ");
+                password = sc.nextLine();
+                password.replace(" ", "");
+
+                if(Authentication.validateLogin(username, password))
+                {
+                    UserData ud = new UserData(username);
+                    System.out.println("1) Caricare i vecchi dati del profilo e ottenere da questi ultimi i consigli");
+                    System.out.println("2) Eseguire una nuova interrogazione rispondendo nuovamente alle domande");
+                    int logChoice;
+
+                    do
+                    {
+                        logChoice = Integer.parseInt(sc.nextLine());
+                    }while(logChoice != 1 && logChoice != 2);
+
+                    if(logChoice == 1)
+                    {
+                        rec.assertUserProfile(ud);
+                        rec.runWithProfile();
+                    }
+                    else
+                    {
+                        rec.interact();
+                        rec.saveUserProfileToFile(ud);
+                    }
+
+                    rec.printSuggestions(System.out);
+                    ud.closeUserData();
+                }
+                else
+                    System.out.println("Dati di login errati o errore di sistema. Chiudere l'applicazione e riprovare");
+
+                break;
+
+            case 3:
+                rec.interact();
+                rec.printSuggestions(System.out);
+                break;
+
+            default:
+                break;
+        }
     }
 
 }

@@ -8,19 +8,20 @@ import java.io.*;
 public class UserData {
 
     private String username;
-    BufferedReader bufferedReader;
-    PrintWriter printWriter;
+    private File file;
+    private BufferedReader bufferedReader;
+    private PrintWriter printWriter;
 
     public UserData(String name)
     {
         username = name;
 
-        File file = openUserData();
+        file = openUserData();
 
         try
         {
             bufferedReader = new BufferedReader(new FileReader(file));
-            printWriter = new PrintWriter(new FileWriter(file, false), true);
+            printWriter = new PrintWriter(new FileWriter(file, true), true);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -31,6 +32,9 @@ public class UserData {
     private File openUserData()
     {
         File file = new File("Data/" + username + ".dat");
+
+        if(!file.getParentFile().exists())
+            file.getParentFile().mkdir();
 
         if(!file.exists())
             try {
@@ -60,5 +64,24 @@ public class UserData {
     public void println(String line)
     {
         printWriter.println(line);
+    }
+
+    public boolean isEmpty()
+    {
+        return file.length() == 0;
+    }
+
+    public void clearFile()
+    {
+        if(!isEmpty())
+        {
+            try {
+                PrintWriter pw = new PrintWriter( new FileWriter(file, false), true);
+                pw.print("");
+                pw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

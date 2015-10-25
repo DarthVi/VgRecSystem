@@ -27,5 +27,8 @@ public class CLEnvironmentQuery {
         return (MultifieldValue) env.eval(evalStr);
     }
 
-
+    public MultifieldValue retrieveUserProfile()
+    {
+        return findFactSet("(?a attribute)", "or (eq ?a:name best-genre) (eq ?a:name best-difficulty) (eq ?a:name best-learning-curve) (eq ?a:name best-plot) (eq ?a:name best-audio) (eq ?a:name best-graphics) (eq ?a:name best-AI) (eq ?a:name best-gameplay) (eq ?a:name best-world-design)");
+    }
 }
