@@ -377,7 +377,7 @@ public class VgRecSystem
 
                 clips.run();
                 //debug
-                clips.eval(("(focus MAIN RULES VIDEOGAMES)"));
+                clips.eval(("(focus RULES VIDEOGAMES)"));
 
                 //debug
                 //System.out.println(clips.eval("(facts MAIN)").toString());
@@ -473,6 +473,7 @@ public class VgRecSystem
         CLEnvironmentQuery envquery = new CLEnvironmentQuery(clips);
         MultifieldValue mv = envquery.retrieveUserProfile();
         userdata.clearFile();
+        userdata.println("(deffacts VIDEOGAMES::gamer-profile");
 
         for (int i = 0; i < mv.size(); i++)
         {
@@ -488,20 +489,28 @@ public class VgRecSystem
                 e.printStackTrace();
             }
         }
+
+        userdata.println(")");
     }
 
     public void assertUserProfile(UserData userdata)
     {
-        String str;
+        String str = new String();
+        String strTemp;
+
 
         try {
-            while((str = userdata.readLine()) != null)
+            while((strTemp = userdata.readLine()) != null)
             {
-                clips.assertString(str);
+                str += strTemp;
+                //clips.assertString(str);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        clips.loadFromString(str);
+        clips.reset();
     }
 
     public void runWithProfile()

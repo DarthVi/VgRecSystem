@@ -29,6 +29,11 @@ public class UserData {
         }
     }
 
+    public String getUsername()
+    {
+        return username;
+    }
+
     private File openUserData()
     {
         File file = new File("Data/" + username + ".dat");

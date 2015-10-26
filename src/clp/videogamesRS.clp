@@ -1,4 +1,4 @@
-;C:\Users\VitoVincenzo\IdeaProjects\videogameRS\videogamesRS.clp
+;C:\Users\VitoVincenzo\IdeaProjects\videogameRS\src\clp\videogamesRS.clp
 (defmodule MAIN (export ?ALL))
 
 ;;*****************
