@@ -377,7 +377,7 @@ public class VgRecSystem
 
                 clips.run();
                 //debug
-                clips.eval(("(focus RULES VIDEOGAMES)"));
+                clips.eval(("(focus MAIN RULES VIDEOGAMES)"));
 
                 //debug
                 //System.out.println(clips.eval("(facts MAIN)").toString());
@@ -454,9 +454,9 @@ public class VgRecSystem
         System.out.println("Come si desidare usare il sistema?");
         System.out.println("1) Registrazione: il sistema registrerà nome utente e password, per poi continuare\n" +
                 "con il normale funzionamento. I dati utente verranno usati per salvere i file della profilazione\n" +
-                "(dati di login, dati con il profilo utente).");
+                "(dati di login, dati con i consigli prodotti).");
         System.out.println("2) Login: il sistema chiederà le credenziali dell'utente (username e password) per poi chiedere\n" +
-                "se usare il sistema usando i dati della precedente sessione o sovrascriverli con dati provenienti da una nuova" +
+                "se visualizzare i consigli della precedente sessione o sovrascriverli con dati provenienti da una nuova" +
                 "sessione di domande fatte all'utente stesso");
         System.out.println("3) Ospite: il sistema non salverà alcun dato dell'utente");
 
@@ -471,9 +471,9 @@ public class VgRecSystem
     public void saveUserProfileToFile(UserData userdata)
     {
         CLEnvironmentQuery envquery = new CLEnvironmentQuery(clips);
-        MultifieldValue mv = envquery.retrieveUserProfile();
+        MultifieldValue mv = envquery.retrieveUserRecommendations();
         userdata.clearFile();
-        userdata.println("(deffacts VIDEOGAMES::gamer-profile");
+        userdata.println("(deffacts VIDEOGAMES::gamer-reccomendations");
 
         for (int i = 0; i < mv.size(); i++)
         {
@@ -513,11 +513,11 @@ public class VgRecSystem
         clips.reset();
     }
 
-    public void runWithProfile()
+    /*public void runWithProfile()
     {
         clips.eval("(focus MAIN RULES VIDEOGAMES)");
         clips.run();
-    }
+    }*/
 
     public static void main(String[]  args)
     {
@@ -565,7 +565,7 @@ public class VgRecSystem
                 if(Authentication.validateLogin(username, password))
                 {
                     UserData ud = new UserData(username);
-                    System.out.println("1) Caricare i vecchi dati del profilo e ottenere da questi ultimi i consigli");
+                    System.out.println("1) Caricare i dati dei consigli prodotti nella precedente sessione");
                     System.out.println("2) Eseguire una nuova interrogazione rispondendo nuovamente alle domande");
                     int logChoice;
 
@@ -577,7 +577,7 @@ public class VgRecSystem
                     if(logChoice == 1)
                     {
                         rec.assertUserProfile(ud);
-                        rec.runWithProfile();
+                        //rec.runWithProfile();
                     }
                     else
                     {
