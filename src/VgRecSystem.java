@@ -18,28 +18,26 @@ public class VgRecSystem
 {
     Environment clips = null;
     Random rn = null;
-    /*final static String EXIT_LOOP = "exit-loop";
-    final static String TRUE = "TRUE";
-    final static String FALSE = "FALSE";*/
     int NUMBER_OF_QUESTIONS = 15;
     private boolean[] selected = new boolean[Attribute.values().length]; //default value in Java = false
-    private Map<String, Question>[] questionByGenre;
-    private int questionsCounter;
+    Map<String, Question>[] questionByGenre;
+    int questionsCounter;
+    List<Question> remQuestion, askedQuestion;
+    List<Integer> removedIndex;
 
     VgRecSystem()
     {
         questionsCounter = 0;
         rn = new Random();
+        remQuestion = new ArrayList<Question>();
+        removedIndex = new ArrayList<Integer>();
+        askedQuestion = new ArrayList<Question>();
         initQuestions();
 
         clips = new Environment();
 
         clips.loadFromResource("/clp/videogamesRS.clp");
         clips.reset();
-        //debug
-        //System.out.println("clips reset done");
-        //System.out.println(clips.eval("(facts)").toString());
-        //System.out.println(clips.eval("(get-focus-stack)").toString());
     }
 
     private void resetSelectedArray()
@@ -134,7 +132,7 @@ public class VgRecSystem
         throw new CannotAskException(chosenQ.getKeyword());
     }
 
-    private boolean hFunction(MultifieldValue field)
+    boolean hFunction(MultifieldValue field)
     {
         if(questionsCounter == NUMBER_OF_QUESTIONS)
             return false;
@@ -299,7 +297,11 @@ public class VgRecSystem
         for(Attribute a : Attribute.values())
         {
             if(questionByGenre[Attribute.valueOf(a)].containsKey(key))
-              questionByGenre[Attribute.valueOf(a)].remove(key);
+            {
+                remQuestion.add(questionByGenre[Attribute.valueOf(a)].get(key));
+                removedIndex.add(Attribute.valueOf(a));
+                questionByGenre[Attribute.valueOf(a)].remove(key);
+            }
         }
 
         NUMBER_OF_QUESTIONS--;
@@ -321,7 +323,7 @@ public class VgRecSystem
             return false;
     }
 
-    void interact()
+    public void interact()
     {
         MutableInteger aIndex = new MutableInteger();
         Question q = null;
@@ -368,21 +370,13 @@ public class VgRecSystem
             if(precursorSatisfied)
             {
                 String answer = q.askQuestion(System.out, new Scanner(System.in));
+                askedQuestion.add(q);
+                q.setAnswer(answer);
 
                 assertAttribute(q.getKeyword(), answer);
 
-                //debug
-                //System.out.println(clips.eval("(get-focus-stack)").toString());
-                //System.out.println(clips.eval("(facts CHOOSE-FEATURES)").toString());
-
                 clips.run();
-                //debug
                 clips.eval(("(focus MAIN RULES VIDEOGAMES)"));
-
-                //debug
-                //System.out.println(clips.eval("(facts MAIN)").toString());
-                //System.out.println(clips.eval("(facts CHOOSE-FEATURES)").toString());
-                //System.out.println(clips.eval("(get-focus-stack)").toString());
 
                 mv = query.findFactSet("(?a attribute)", "eq ?a:name videogame");
 
@@ -403,7 +397,7 @@ public class VgRecSystem
 
     }
 
-    private void printSuggestions(PrintStream str)
+    void printSuggestions(PrintStream str)
     {
         CLEnvironmentQuery query = new CLEnvironmentQuery(clips);
         MultifieldValue mv = query.findFactSet("(?a attribute)", "eq ?a:name videogame");
@@ -440,7 +434,7 @@ public class VgRecSystem
         }
     }
 
-    private void assertAttribute(String name, String value)
+    void assertAttribute(String name, String value)
     {
         String toAssert = "(attribute (name " + name + ") (value " + value + "))";
         clips.assertString(toAssert);
@@ -513,12 +507,6 @@ public class VgRecSystem
         clips.reset();
     }
 
-    /*public void runWithProfile()
-    {
-        clips.eval("(focus MAIN RULES VIDEOGAMES)");
-        clips.run();
-    }*/
-
     public static void main(String[]  args)
     {
         VgRecSystem rec = new VgRecSystem();
@@ -543,11 +531,14 @@ public class VgRecSystem
 
                     rec.interact();
 
+                    rec.printSuggestions(System.out);
+
+                    System.out.println("Riepilogo: ");
+                    ModAnswerProcessor.modifyAnswers(rec.askedQuestion, rec);
+
                     UserData ud = new UserData(username);
                     rec.saveUserProfileToFile(ud);
                     ud.closeUserData();
-
-                    rec.printSuggestions(System.out);
                 }
                 else
                     System.out.println("Si è verificato un problema: username già esistente o errore di sistema.\n" +
@@ -577,15 +568,19 @@ public class VgRecSystem
                     if(logChoice == 1)
                     {
                         rec.assertUserProfile(ud);
-                        //rec.runWithProfile();
+                        rec.printSuggestions(System.out);
                     }
                     else
                     {
                         rec.interact();
+                        rec.printSuggestions(System.out);
+
+                        System.out.println("Riepilogo: ");
+                        ModAnswerProcessor.modifyAnswers(rec.askedQuestion, rec);
+
                         rec.saveUserProfileToFile(ud);
                     }
 
-                    rec.printSuggestions(System.out);
                     ud.closeUserData();
                 }
                 else
@@ -596,6 +591,9 @@ public class VgRecSystem
             case 3:
                 rec.interact();
                 rec.printSuggestions(System.out);
+
+                System.out.println("Riepilogo: ");
+                ModAnswerProcessor.modifyAnswers(rec.askedQuestion, rec);
                 break;
 
             default:

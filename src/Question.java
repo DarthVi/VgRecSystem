@@ -15,6 +15,7 @@ public class Question {
     private ArrayList<String> validAnswers;
     public Glossary glossary;
     private boolean selected;
+    private String answer;
 
     public Question()
     {
@@ -23,6 +24,7 @@ public class Question {
         precursor = null;
         validAnswers = null;
         glossary = null;
+        answer = null;
         selected = false;
     }
 
@@ -33,6 +35,7 @@ public class Question {
         precursor = precText;
         validAnswers = valAns;
         glossary = gl;
+        answer = null;
         selected = false;
     }
 
@@ -43,6 +46,7 @@ public class Question {
         precursor = precText;
         setValidAnswers(valAns);
         glossary = null;
+        answer = null;
         selected = false;
     }
 
@@ -54,11 +58,22 @@ public class Question {
         setValidAnswers(valAns);
         glossary = new Glossary(gl);
         selected = false;
+        answer = null;
     }
 
     public String getKeyword()
     {
         return keyword;
+    }
+
+    public void setAnswer(String newAnswer)
+    {
+        answer = newAnswer;
+    }
+
+    public String getAnswer()
+    {
+        return answer;
     }
 
     public void setKeyword(String key)
