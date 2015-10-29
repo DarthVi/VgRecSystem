@@ -15,7 +15,7 @@ public class MainMenu {
         int choice;
 
         System.out.println("Come si desidare usare il sistema?");
-        System.out.println("1) Registrazione: il sistema registrerà nome utente e password, per poi continuare\n" +
+        System.out.println("1) Registrazione: il sistema registrera' nome utente e password, per poi continuare\n" +
                 "con il normale funzionamento. I dati utente verranno usati per salvere i file della profilazione\n" +
                 "(dati di login, dati con i consigli prodotti).");
         System.out.println("2) Login: il sistema chiederà le credenziali dell'utente (username e password) per poi chiedere\n" +
