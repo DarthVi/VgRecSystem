@@ -1,3 +1,5 @@
+import TypeCheck.TypeCheckUtils;
+
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -168,13 +170,17 @@ public class Question {
             }
             else if (userAnswer.equals(""))
                 userAnswer = null;
-            else
+            else if (TypeCheckUtils.isInteger(userAnswer))
             {
                 int ansInt = Integer.parseInt(userAnswer);
 
                 if(ansInt >= 1 && ansInt <= getValidAnswers().size())
                     userAnswer = getValidAnswers().get(ansInt - 1);
+                else
+                    userAnswer = null;
             }
+            else if(!userAnswer.equals("e"))
+                userAnswer = null;
         }
 
         return userAnswer;

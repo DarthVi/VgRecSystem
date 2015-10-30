@@ -10,6 +10,7 @@ public class UserData {
     private String username;
     private File file;
     private BufferedReader bufferedReader;
+    private FileInputStream fIn;
     private PrintWriter printWriter;
 
     public UserData(String name)
@@ -20,13 +21,23 @@ public class UserData {
 
         try
         {
-            bufferedReader = new BufferedReader(new FileReader(file));
+            fIn = new FileInputStream(file);
+            bufferedReader = new BufferedReader(new InputStreamReader(fIn));
             printWriter = new PrintWriter(new FileWriter(file, true), true);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public UserData()
+    {
+        username = null;
+        file = null;
+        fIn = null;
+        bufferedReader = null;
+        printWriter = null;
     }
 
     public String getUsername()
@@ -88,5 +99,15 @@ public class UserData {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void readCursorToBegin()
+    {
+        try {
+            fIn.getChannel().position(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        bufferedReader = new BufferedReader(new InputStreamReader(fIn));
     }
 }

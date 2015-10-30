@@ -1,6 +1,7 @@
 import DataAccess.UserData;
 import Security.Authentication;
 import TypeCheck.TypeCheckUtils;
+import net.sf.clipsrules.jni.MultifieldValue;
 
 import java.util.Scanner;
 
@@ -40,10 +41,11 @@ public class MainMenu {
     public static boolean userMenu(VgRecSystem rec, UserData ud, Scanner sc)
     {
         System.out.println("");
-        System.out.println("1) Caricare i dati dei consigli prodotti nella precedente sessione");
+        System.out.println("1) Caricare i dati della sessione precedente");
         System.out.println("2) Eseguire una nuova interrogazione rispondendo nuovamente alle domande");
         System.out.println("3) Logout");
         int logChoice;
+
 
         do
         {
@@ -53,15 +55,31 @@ public class MainMenu {
         if(logChoice == 1)
         {
             rec.assertUserProfile(ud);
-            rec.printSuggestions(System.out);
+
+            CLEnvironmentQuery query = new CLEnvironmentQuery(rec.clips);
+
+            MultifieldValue mv = query.findFactSet("(?a attribute)", "eq ?a:name videogame");
+
+            boolean printableResults = true;
+
+            if(rec.hFunction(mv))
+                printableResults = rec.interact(ud);
+
+            if(printableResults)
+            {
+                rec.printSuggestions(System.out);
+                ModAnswerProcessor.modifyAnswers(rec.askedQuestion, rec, ud);
+            }
+
+            rec.saveUserProfileToFile(ud);
             return true;
         }
         else if(logChoice == 2)
         {
-            rec.interact();
+            rec.interact(ud);
             rec.printSuggestions(System.out);
 
-            ModAnswerProcessor.modifyAnswers(rec.askedQuestion, rec);
+            ModAnswerProcessor.modifyAnswers(rec.askedQuestion, rec, ud);
 
             rec.saveUserProfileToFile(ud);
             return true;
@@ -93,14 +111,13 @@ public class MainMenu {
                     if(Authentication.addUser(username, password) == 1)
                     {
                         System.out.println("Registrazione effettuata con successo!");
-
-                        rec.interact();
-
-                        rec.printSuggestions(System.out);
-
-                        ModAnswerProcessor.modifyAnswers(rec.askedQuestion, rec);
-
                         UserData ud = new UserData(username);
+
+                        if(rec.interact(ud))
+                            rec.printSuggestions(System.out);
+
+                        ModAnswerProcessor.modifyAnswers(rec.askedQuestion, rec, ud);
+
                         rec.saveUserProfileToFile(ud);
                         ud.closeUserData();
                     }
@@ -134,10 +151,12 @@ public class MainMenu {
                     break;
 
                 case 3:
-                    rec.interact();
-                    rec.printSuggestions(System.out);
+                    UserData ud = new UserData();
 
-                    ModAnswerProcessor.modifyAnswers(rec.askedQuestion, rec);
+                    if(rec.interact(ud))
+                        rec.printSuggestions(System.out);
+
+                    ModAnswerProcessor.modifyAnswers(rec.askedQuestion, rec, ud);
                     break;
 
                 case 4:

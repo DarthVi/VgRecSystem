@@ -323,7 +323,7 @@ public class VgRecSystem
             return false;
     }
 
-    public void interact()
+    public boolean interact(UserData userData)
     {
         MutableInteger aIndex = new MutableInteger();
         Question q = null;
@@ -370,31 +370,43 @@ public class VgRecSystem
             if(precursorSatisfied)
             {
                 String answer = q.askQuestion(System.out, new Scanner(System.in));
-                askedQuestion.add(q);
-                q.setAnswer(answer);
 
-                assertAttribute(q.getKeyword(), answer);
-
-                clips.run();
-                clips.eval(("(focus MAIN RULES VIDEOGAMES)"));
-
-                mv = query.findFactSet("(?a attribute)", "eq ?a:name videogame");
-
-                if(!hFunction(mv) && questionsCounter < NUMBER_OF_QUESTIONS && ask == false)
+                if(!answer.equals("e"))
                 {
-                    repeatCycle = askMoreQuestion(System.out, new Scanner(System.in));
-                    ask = true;
+                    askedQuestion.add(q);
+                    q.setAnswer(answer);
+
+                    assertAttribute(q.getKeyword(), answer);
+
+                    clips.run();
+                    clips.eval(("(focus MAIN RULES VIDEOGAMES)"));
+
+                    mv = query.findFactSet("(?a attribute)", "eq ?a:name videogame");
+
+                    if(!hFunction(mv) && questionsCounter < NUMBER_OF_QUESTIONS && ask == false)
+                    {
+                        repeatCycle = askMoreQuestion(System.out, new Scanner(System.in));
+                        ask = true;
+                    }
+                    else if(questionsCounter == NUMBER_OF_QUESTIONS)
+                        repeatCycle = false;
+                    else
+                        repeatCycle = true;
                 }
-                else if(questionsCounter == NUMBER_OF_QUESTIONS)
-                    repeatCycle = false;
                 else
-                    repeatCycle = true;
+                {
+                    if(userData.getUsername() != null)
+                        saveUserProfileToFile(userData);
+
+                    return false;
+                }
             }
             else
                 repeatCycle = false;
 
         }while(repeatCycle);
 
+        return true;
     }
 
     void printSuggestions(PrintStream str)
@@ -443,9 +455,9 @@ public class VgRecSystem
     public void saveUserProfileToFile(UserData userdata)
     {
         CLEnvironmentQuery envquery = new CLEnvironmentQuery(clips);
-        MultifieldValue mv = envquery.retrieveUserRecommendations();
+        MultifieldValue mv = envquery.retrieveUserAnswers();
         userdata.clearFile();
-        userdata.println("(deffacts VIDEOGAMES::gamer-reccomendations");
+        //userdata.println("(deffacts VIDEOGAMES::gamer-reccomendations");
 
         for (int i = 0; i < mv.size(); i++)
         {
@@ -462,27 +474,38 @@ public class VgRecSystem
             }
         }
 
-        userdata.println(")");
+        //userdata.println(")");
     }
 
     public void assertUserProfile(UserData userdata)
     {
-        String str = new String();
-        String strTemp;
+        String str;
 
+        clips.reset();
+        ModAnswerProcessor.restoreQuestionContainer(this);
+        askedQuestion.clear();
+        questionsCounter = 0;
+
+        userdata.readCursorToBegin();
 
         try {
-            while((strTemp = userdata.readLine()) != null)
+            while((str = userdata.readLine()) != null)
             {
-                str += strTemp;
-                //clips.assertString(str);
+                FactAddressValue fv = clips.assertString(str);
+                String key = ((LexemeValue) fv.getFactSlot("name")).lexemeValue();
+                String val = ((LexemeValue) fv.getFactSlot("value")).lexemeValue();
+                Question qu = chooseQuestionFromKeyword(key);
+                qu.setAnswer(val);
+                askedQuestion.add(qu);
+                clips.run();
+                clips.eval(("(focus MAIN RULES VIDEOGAMES)"));
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        clips.loadFromString(str);
-        clips.reset();
     }
 
     public static void main(String[]  args)

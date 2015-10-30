@@ -1,3 +1,4 @@
+import DataAccess.UserData;
 import TypeCheck.TypeCheckUtils;
 import net.sf.clipsrules.jni.Environment;
 import net.sf.clipsrules.jni.MultifieldValue;
@@ -11,7 +12,7 @@ import java.util.Scanner;
  */
 public class ModAnswerProcessor {
 
-    public static final void modifyAnswers(List<Question> aQuestion, VgRecSystem vg)
+    public static final void modifyAnswers(List<Question> aQuestion, VgRecSystem vg, UserData ud)
     {
         Scanner sc = new Scanner(System.in);
 
@@ -68,10 +69,13 @@ public class ModAnswerProcessor {
 
             MultifieldValue mv = query.findFactSet("(?a attribute)", "eq ?a:name videogame");
 
-            if(vg.hFunction(mv))
-                vg.interact();
+            boolean printableResults = true;
 
-            vg.printSuggestions(System.out);
+            if(vg.hFunction(mv))
+                printableResults = vg.interact(ud);
+
+            if(printableResults)
+                vg.printSuggestions(System.out);
         }
 
     }
