@@ -333,6 +333,10 @@ public class VgRecSystem
         boolean repeatCycle;
         boolean ask = false;
 
+        System.out.println("");
+        System.out.println("Premere \"?\" e digitare invio per ottenere il glossario (per alcune domande non sara' disponibile).\n" +
+                           "Premere \"e\" e digitare invio per uscire; se è stato effettuata la registrazione o il login, il sistema salverà i dati già ottenuti.\n" +
+                           "Digitare il numero appropriato e poi invio per rispondere alle domande\n");
         do
         {
             do
