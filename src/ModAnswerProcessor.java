@@ -87,5 +87,7 @@ public class ModAnswerProcessor {
             vg.questionByGenre[vg.removedIndex.get(i)].put(vg.remQuestion.get(i).getKeyword(), vg.remQuestion.get(i));
             vg.NUMBER_OF_QUESTIONS++;
         }
+
+        vg.remQuestion.clear();
     }
 }

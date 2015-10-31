@@ -486,7 +486,6 @@ public class VgRecSystem
         String str;
 
         clips.reset();
-        ModAnswerProcessor.restoreQuestionContainer(this);
         askedQuestion.clear();
         questionsCounter = 0;
 

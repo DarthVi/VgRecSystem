@@ -19,8 +19,8 @@ public class MainMenu {
         System.out.println("1) Registrazione: il sistema registrera' nome utente e password, per poi continuare\n" +
                 "con il normale funzionamento. I dati utente verranno usati per salvere i file della profilazione\n" +
                 "(dati di login, dati con le risposte date).");
-        System.out.println("2) Login: il sistema chiederà le credenziali dell'utente (username e password) per poi chiedere\n" +
-                "se visualizzare i consigli della precedente sessione o sovrascriverli con dati provenienti da una nuova" +
+        System.out.println("2) Login: il sistema chiedera' le credenziali dell'utente (username e password) per poi chiedere\n" +
+                "se usare i dati della precedente sessione (perché interrotta dall'utente o con consigli ottenuti)\n o sovrascriverli con dati provenienti da una nuova" +
                 "sessione di domande fatte all'utente stesso");
         System.out.println("3) Ospite: il sistema non salverà alcun dato dell'utente");
         System.out.println("4) Esci e chiudi il programma");
@@ -52,6 +52,8 @@ public class MainMenu {
             logChoice = Integer.parseInt(sc.nextLine());
         }while(logChoice != 1 && logChoice != 2 && logChoice != 3);
 
+        ModAnswerProcessor.restoreQuestionContainer(rec);
+
         if(logChoice == 1)
         {
             rec.assertUserProfile(ud);
@@ -76,8 +78,8 @@ public class MainMenu {
         }
         else if(logChoice == 2)
         {
-            rec.interact(ud);
-            rec.printSuggestions(System.out);
+            if(rec.interact(ud))
+                rec.printSuggestions(System.out);
 
             ModAnswerProcessor.modifyAnswers(rec.askedQuestion, rec, ud);
 
@@ -112,6 +114,8 @@ public class MainMenu {
                     {
                         System.out.println("Registrazione effettuata con successo!");
                         UserData ud = new UserData(username);
+
+                        ModAnswerProcessor.restoreQuestionContainer(rec);
 
                         if(rec.interact(ud))
                             rec.printSuggestions(System.out);
@@ -152,6 +156,8 @@ public class MainMenu {
 
                 case 3:
                     UserData ud = new UserData();
+
+                    ModAnswerProcessor.restoreQuestionContainer(rec);
 
                     if(rec.interact(ud))
                         rec.printSuggestions(System.out);
