@@ -1,9 +1,11 @@
+package Questions;
+
 import TypeCheck.TypeCheckUtils;
 
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -148,6 +150,11 @@ public class Question {
             str.println("Glossario non disponibile per questa domanda\n");
     }
 
+    private void promptQuestionExplanation(PrintStream str)
+    {
+        str.println(QuestionExplanation.get(this.getKeyword()));
+    }
+
     public String askQuestion(PrintStream str, Scanner scn)
     {
         String userAnswer = null;
@@ -170,6 +177,11 @@ public class Question {
             }
             else if (userAnswer.equals(""))
                 userAnswer = null;
+            else if (userAnswer.equals("p"))
+            {
+                promptQuestionExplanation(str);
+                userAnswer = null;
+            }
             else if (TypeCheckUtils.isInteger(userAnswer))
             {
                 int ansInt = Integer.parseInt(userAnswer);

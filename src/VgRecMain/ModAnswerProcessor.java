@@ -1,10 +1,12 @@
+package VgRecMain;
+
+import DataAccess.CLEnvironmentQuery;
 import DataAccess.UserData;
+import Questions.Question;
 import TypeCheck.TypeCheckUtils;
-import net.sf.clipsrules.jni.Environment;
 import net.sf.clipsrules.jni.MultifieldValue;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 /**

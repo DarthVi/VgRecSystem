@@ -1,3 +1,6 @@
+package VgRecMain;
+
+import DataAccess.CLEnvironmentQuery;
 import DataAccess.UserData;
 import Security.Authentication;
 import TypeCheck.TypeCheckUtils;
@@ -20,9 +23,9 @@ public class MainMenu {
                 "con il normale funzionamento. I dati utente verranno usati per salvere i file della profilazione\n" +
                 "(dati di login, dati con le risposte date).");
         System.out.println("2) Login: il sistema chiedera' le credenziali dell'utente (username e password) per poi chiedere\n" +
-                "se usare i dati della precedente sessione (perché interrotta dall'utente o con consigli ottenuti)\n o sovrascriverli con dati provenienti da una nuova" +
+                "se usare i dati della precedente sessione (perche' interrotta dall'utente o con consigli ottenuti)\n o sovrascriverli con dati provenienti da una nuova" +
                 "sessione di domande fatte all'utente stesso");
-        System.out.println("3) Ospite: il sistema non salverà alcun dato dell'utente");
+        System.out.println("3) Ospite: il sistema non salvera' alcun dato dell'utente");
         System.out.println("4) Esci e chiudi il programma");
 
         do {

@@ -1,4 +1,4 @@
-/**
+package DataAccess; /**
  * Created by VitoVincenzo on 05/10/2015.
  */
 import net.sf.clipsrules.jni.*;
