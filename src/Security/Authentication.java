@@ -5,12 +5,21 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 /**
- * Created by VitoVincenzo on 23/10/2015.
+ * Classe usata per le operazioni di autenticazione dell'utente, quindi per la registrazione e il login.
+ * Sfrutta quanto definito nella classe PasswordHash, in modo da memorizzare i dati delle password in salted hashing,
+ * e un file chiamato db.dat (se non presente, verrà creato automaticamente).
+ * @see PasswordHash
  */
 public class Authentication {
 
-    public static final String DB_FILENAME = "db.txt";
+    public static final String DB_FILENAME = "db.dat";
 
+    /**
+     * Controlla se esiste già un utente con un determinato username nel file di registrazione
+     * @param file          classe con i riferimenti al file usato per memorizzare gli utenti registrati
+     * @param username      username dell'utente
+     * @return              true se l'username è presente nel file, false altrimenti
+     */
     private static boolean userExist(File file, String username)
     {
         String str;
@@ -37,6 +46,12 @@ public class Authentication {
         return false;
     }
 
+    /**
+     * Aggiunge nel file delle registrazioni un utente con username e password forniti come parametri
+     * @param username      username usato dall'utente
+     * @param password      password usata dall'utente
+     * @return              1 se l'operazione si è conclusa con successo, -1 in caso di errore
+     */
     public static int addUser(String username, String password)
     {
         File file = new File("./" + DB_FILENAME);
@@ -73,6 +88,13 @@ public class Authentication {
         return -1; //error
     }
 
+    /**
+     * Funzione usata per le operazioni di login, ossia per verificare che i dati inseriti dall'utente siano presenti a quanto
+     * già presente nel file delle registrazioni.
+     * @param username      username da verificare
+     * @param password      password da verificare
+     * @return              true se esiste nel file delle registrazioni un utente con i dati forniti come parametri, false altrimenti
+     */
     public static boolean validateLogin(String username, String password)
     {
         File file = new File("./" + DB_FILENAME);

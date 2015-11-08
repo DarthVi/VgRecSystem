@@ -1,9 +1,11 @@
 package Videogames;
 
 import java.util.Comparator;
+import java.util.List;
 
 /**
- * Created by VitoVincenzo on 14/10/2015.
+ * Classe che implementa l'interfaccia {@link Comparator} e che verrà usata per
+ * ordinare le istanze di {@link Videogame} tramite il metodo {@link java.util.Collections#sort(List)}
  */
 public class VideogameComparator implements Comparator<Videogame> {
     public int compare(Videogame v1, Videogame v2)

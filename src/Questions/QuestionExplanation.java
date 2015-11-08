@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by VitoVincenzo on 02/11/2015.
+ * Contiene, per ogni domanda identificata da una parola chiave, le spiegazioni sul motivo per cui vengono poste le domande.
  */
 public class QuestionExplanation {
 

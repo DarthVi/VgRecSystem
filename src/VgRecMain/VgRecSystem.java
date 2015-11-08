@@ -1,5 +1,8 @@
-package VgRecMain; /**
- * Created by Vito Vincenzo Covella on 16/08/2015.
+package VgRecMain;
+
+/**
+ * Classe principale del programma, contiene il Main e i principali metodi sulla selezione delle domande, l'interazione con l'utente,
+ * l'inferenza e la scelta dei videogiochi da consigliare.
  */
 
 import DataAccess.CLEnvironmentQuery;
@@ -31,6 +34,10 @@ public class VgRecSystem
     List<Question> remQuestion, askedQuestion;
     List<Integer> removedIndex;
 
+    /**
+     * Costruttore: inizializza i membri della classe, carica le domande disponibili, il file .clp delle regole CLIPS
+     * nell'{@link Environment} e lo resetta.
+     */
     VgRecSystem()
     {
         questionsCounter = 0;
@@ -46,12 +53,23 @@ public class VgRecSystem
         clips.reset();
     }
 
+    /**
+     * Resetta i flag relativi alla selezione degli attributi legati alle domande che devono ancora essere poste all'utente
+     * @see Attribute
+     */
     private void resetSelectedArray()
     {
         for(int i = 0; i < Attribute.values().length; i++)
             selected[i] = false;
     }
 
+    /**
+     * Seleziona l'attributo di cui si vogliono conoscere ulteriori dettagli. Ad ogni attributo è legata una serie di domande
+     * che lo riguardano. Ogni volta che questo metodo è chiamato, qualora non tutti gli attributi siano stati flaggati, esso sceglie
+     * randomicamente un attributo non ancora selezionato e lo flagga. Se tutti gli attributi sono stati flaggati, resetta tutti i flag
+     * tramite il metodo {@link #resetSelectedArray()}
+     * @return      {@link Attribute} selezionato
+     */
     private Attribute selectAttribute()
     {
         ArrayList<Attribute> allFalse = new ArrayList<Attribute>();
@@ -75,6 +93,19 @@ public class VgRecSystem
         return allFalse.get(sel);
     }
 
+    /**
+     * Sceglie una domanda ({@link Question}) che impatta uno specifico {@link Attribute} selezionato tramite {@link #selectAttribute()} e
+     * che non sia già stata posta all'utente.
+     * Se la domanda scelta deve soddisfare dei prerequisiti, controlla che effettivamente li soddisfi; in caso negativo, lancia
+     * l'eccezione {@link CannotAskException}. Se invece deve ancora essere posta la domanda che funge da prerequisito, allora
+     * lancia l'eccezione {@link PrecursorException}
+     *
+     * @param attributeIndex    mutable int che verrà usato per identificare l'attributo selezionato e accedere a {@link #questionByGenre},
+     *                          l'array di dizionari di domande
+     * @return                  la domanda scelta
+     * @throws PrecursorException
+     * @throws CannotAskException
+     */
     private Question selectQuestion(MutableInteger attributeIndex) throws PrecursorException, CannotAskException
     {
         Question chosenQ = null;
@@ -138,6 +169,13 @@ public class VgRecSystem
         throw new CannotAskException(chosenQ.getKeyword());
     }
 
+    /**
+     * Funzione euristica usata per determinare quando smettere di fare domande all'utente e terminare l'inferenza, in modo
+     * da poter visualizzare i consigli prodotti e al tempo stesso evitare di fare tutte le domande.
+     *
+     * @param field     {@link MultifieldValue}, set di raccomandazioni fin ora prodotte
+     * @return          false per arrestare l'inferenza, true per continuarla
+     */
     boolean hFunction(MultifieldValue field)
     {
         if(questionsCounter == NUMBER_OF_QUESTIONS)
@@ -169,6 +207,12 @@ public class VgRecSystem
 
     }
 
+    /**
+     * Restituisce la domanda di cui si conosce la parola chiave
+     * @param keyword       parola chiave che identifica una domanda
+     * @return              domanda identificata dalla parola chiave
+     * @throws NoSuchFieldException
+     */
     private Question chooseQuestionFromKeyword(String keyword) throws NoSuchFieldException
     {
 
@@ -187,6 +231,12 @@ public class VgRecSystem
         throw new NoSuchFieldException("String not found");
     }
 
+    /**
+     * Inizializza la struttura dati che dovrà contenere tutte le domande disponibili nel sistema e che tiene anche conto
+     * delle relazioni con gli attributi. Questa funzione viene chiamata dal costruttore {@link #VgRecSystem()}
+     * @see Attribute
+     * @see Question
+     */
     void initQuestions()
     {
         questionByGenre =  (HashMap<String, Question>[]) Array.newInstance(HashMap.class, Attribute.values().length);
@@ -194,6 +244,13 @@ public class VgRecSystem
     }
 
 
+    /**
+     * Rimuove la domanda identificata dalla parola chiave, specificata come parametro, dal pool di domande
+     * da cui scegliere quella da porre all'utente.
+     * La domanda rimossa viene inserita in una lista appropriata in cui vengono salvate tutte le rimozioni, in modo
+     * da poter garantire il successivo reset richiesto da determinate operazioni.
+     * @param key       parola chiave che identifica la domanda da rimuovere
+     */
     private void removeQuestion(String key)
     {
         for(Attribute a : Attribute.values())
@@ -209,6 +266,13 @@ public class VgRecSystem
         NUMBER_OF_QUESTIONS--;
     }
 
+    /**
+     * Chiede all'utente se, dopo aver già ottenuto alcune raccomandazioni utili, desidera continuare rispondendo a tutte le domande
+     * o smettere e visualizzare i consigli.
+     * @param str       stream su cui verranno stampati i messaggi
+     * @param scn       scanner da cui verranno letti i dati di input
+     * @return          true se l'utente desidera continuare a rispondere ad altre domande, false in caso contrario
+     */
     private boolean askMoreQuestion(PrintStream str, Scanner scn)
     {
         String userAnswer;

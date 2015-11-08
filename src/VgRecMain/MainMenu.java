@@ -9,10 +9,15 @@ import net.sf.clipsrules.jni.MultifieldValue;
 import java.util.Scanner;
 
 /**
- * Created by VitoVincenzo on 28/10/2015.
+ * Contiene i metodi statici per la gestione dei menù e dell'interazione con essi
  */
 public class MainMenu {
 
+    /**
+     * Visualizza il menù iniziale in cui viene chiesto all'utente di scegliere fra la registrazione, il login, l'uso del sistema come Ospite
+     * e la terminazione del programma
+     * @return      intero che rappresenta la scelta effettuata dall'utente (1 per la registrazione, 2 per il login, 3 per l'uso da ospite e 4 per uscire dal programma)
+     */
     public static int askForAuthentication()
     {
         Scanner sc = new Scanner(System.in);
@@ -41,6 +46,16 @@ public class MainMenu {
         return choice;
     }
 
+    /**
+     * Menù visualizzato dopo aver effettuato il login. Gestisce le operazioni disponibili dopo tale operazione
+     * (caricare i dati della sessione precedente, eseguire una nuova interrogazione rispondendo nuovamente alle domande e
+     * fare il logout).
+     * @param rec   istanza della classe principale contenente i metodi di interazione con l'{@link net.sf.clipsrules.jni.Environment} e
+     *              le operazioni per porre domande e fare inferenza
+     * @param ud    contiene i dati dell'utente
+     * @param sc    scanner usato per la gestione dell'input
+     * @return      booleano che vale true per tutte le scelte del sottomenù tranne che per il logout
+     */
     public static boolean userMenu(VgRecSystem rec, UserData ud, Scanner sc)
     {
         System.out.println("");
@@ -93,6 +108,12 @@ public class MainMenu {
             return false;
     }
 
+    /**
+     * Visualizza il menù iniziale tramite il metodo {@link #askForAuthentication()} e gestisce il risultato ottenuto da esso
+     * per determinare le successive azioni da effettuare (registrazione e uso del programma, login, uso da ospite e uscita dal programma).
+     * @param rec       istanza della classe principale contenente i metodi di interazione con l'{@link net.sf.clipsrules.jni.Environment} e
+     *                  le operazioni per porre domande e fare inferenza
+     */
     public static void menu(VgRecSystem rec)
     {
         boolean exit = false;

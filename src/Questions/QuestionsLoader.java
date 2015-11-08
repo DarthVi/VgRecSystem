@@ -4,10 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by VitoVincenzo on 02/11/2015.
+ * Classe che serve ad inizializzare e caricare nel programma le domande
  */
 public class QuestionsLoader {
 
+    /**
+     * Funzione che si occupa dell'inizializzazione e del caricamento delle domande all'interno di un dizionario indicato come parametro della procedura
+     * @param questionByGenre dizionario (map) di domande
+     */
     public static void loadQuestions(Map<String, Question>[] questionByGenre)
     {
         HashMap<String, String> glossaryMap;

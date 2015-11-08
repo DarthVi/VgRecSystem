@@ -3,7 +3,9 @@ package DataAccess;
 import java.io.*;
 
 /**
- * Created by VitoVincenzo on 24/10/2015.
+ * Classe contenente i dati di uno specifico utente e che serve a modellare i metodi per accedere al profilo
+ * dell'utente, compreso il profilo psicologico salvato dopo il termine di una sessione d'uso del software o dopo aver
+ * richiesto di uscire mentre è ancora in corso la fase di risposta alle domande.
  */
 public class UserData {
 
@@ -13,6 +15,10 @@ public class UserData {
     private FileInputStream fIn;
     private PrintWriter printWriter;
 
+    /**
+     * Costruttore che inizializza i dati e i riferimenti alle risorse contenenti i dati dell'utente il cui username è quello fornito come parametro
+     * @param name      username dell'utente
+     */
     public UserData(String name)
     {
         username = name;
@@ -31,6 +37,9 @@ public class UserData {
         }
     }
 
+    /**
+     * Costruttore da usare per l'utente Ospite (non registrato e/o non loggato): tutti i dati sono null
+     */
     public UserData()
     {
         username = null;
@@ -40,11 +49,19 @@ public class UserData {
         printWriter = null;
     }
 
+    /**
+     * Restituisce l'username
+     * @return      username dell'utente
+     */
     public String getUsername()
     {
         return username;
     }
 
+    /**
+     * Apre il file contenente il profilo utente, se esso non esiste, lo crea.
+     * @return      riferimento alla specifica istanza {@link File} che contiene i dati per accedere al file del profilo utente
+     */
     private File openUserData()
     {
         File file = new File("Data/" + username + ".dat");
@@ -62,6 +79,9 @@ public class UserData {
         return file;
     }
 
+    /**
+     * Chiude i buffer usati per scrivere e leggere sul file del profilo utente
+     */
     public void closeUserData()
     {
         try {
@@ -72,21 +92,38 @@ public class UserData {
         printWriter.close();
     }
 
+    /**
+     * Legge una riga dal file del profilo utente
+     * @return  riga corrente del file del profilo utente
+     * @throws IOException
+     */
     public String readLine() throws IOException
     {
         return bufferedReader.readLine();
     }
 
+
+    /**
+     * Scrive sul file del profilo utente una stringa passata come parametro
+     * @param line      stringa da scrivere sul file del profilo utente
+     */
     public void println(String line)
     {
         printWriter.println(line);
     }
 
+    /**
+     * Verifica se il file è vuoto
+     * @return      true se il file è vuoto, false altrimenti
+     */
     public boolean isEmpty()
     {
         return file.length() == 0;
     }
 
+    /**
+     * Se il file del profilo utente non è vuoto, ne cancella il contenuto.
+     */
     public void clearFile()
     {
         if(!isEmpty())
@@ -101,6 +138,9 @@ public class UserData {
         }
     }
 
+    /**
+     * Riposiziona il cursore di lettura all'inizio del file
+     */
     public void readCursorToBegin()
     {
         try {

@@ -1,7 +1,12 @@
 package VgExceptions;
 
+import Utils.MutableInteger;
+
 /**
- * Created by VitoVincenzo on 06/10/2015.
+ * Modella l'eccezione usata quando non è possibile proporre la domanda selezionata all'utente perché la risposta ad una domanda
+ * che funge da prerequisito è diversa da quella necessaria.
+ * @see Questions.Question
+ * @see VgRecMain.VgRecSystem#selectQuestion(MutableInteger)
  */
 public class CannotAskException extends Exception {
 
