@@ -1,10 +1,5 @@
 package VgRecMain;
 
-/**
- * Classe principale del programma, contiene il Main e i principali metodi sulla selezione delle domande, l'interazione con l'utente,
- * l'inferenza e la scelta dei videogiochi da consigliare.
- */
-
 import DataAccess.CLEnvironmentQuery;
 import DataAccess.UserData;
 import Questions.Attribute;
@@ -22,6 +17,11 @@ import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.*;
 import VgExceptions.PrecursorException;
+
+/**
+ * Classe principale del programma, contiene il Main e i principali metodi sulla selezione delle domande, l'interazione con l'utente,
+ * l'inferenza e la scelta dei videogiochi da consigliare.
+ */
 
 public class VgRecSystem
 {
@@ -289,6 +289,18 @@ public class VgRecSystem
             return false;
     }
 
+    /**
+     * Metodo principale che si occupa di porre le domande all'utente, ricevere la risposta, asserire i fatti derivanti dalla risposta
+     * e avviare l'inferenza relativa all'{@link Environment}. Questo metodo usa {@link #selectQuestion(MutableInteger)}, gestisce appropriatamente {@link PrecursorException}
+     * e {@link CannotAskException} e, qualora l'utente sia registrato o loggato, permette il salvataggio dei dati tramite
+     * {@link UserData}.
+     * @param userData      struttura che contiene i riferimenti ai dati dell'utente
+     * @return              true se l'utente ha risposto a tutte le domande necessarie, false in caso contrario
+     * @see #selectQuestion(MutableInteger)
+     * @see PrecursorException
+     * @see CannotAskException
+     * @see Environment
+     */
     public boolean interact(UserData userData)
     {
         MutableInteger aIndex = new MutableInteger();
@@ -380,6 +392,11 @@ public class VgRecSystem
         return true;
     }
 
+    /**
+     * Sfrutta {@link CLEnvironmentQuery}  per ottenere le raccomandazioni prodotte, ne effettua l'ordinamento secondo il valore
+     * di certezza e le stampa sul {@link PrintStream} fornito come parametro.
+     * @param str       stream su cui stampare le raccomandazioni ottenute
+     */
     void printSuggestions(PrintStream str)
     {
         CLEnvironmentQuery query = new CLEnvironmentQuery(clips);
@@ -417,12 +434,26 @@ public class VgRecSystem
         }
     }
 
+    /**
+     * Asserisce un fatto nella working memory dell'{@link Environment} CLIPS.
+     * Il fatto inserito è un attribute con slot name pari al primo parametro fornito e slot value pari al secondo
+     * parametro fornito.
+     * @param name      valore dello slot name
+     * @param value     valore dello slot value
+     * @see Environment#assertString(String)
+     */
     void assertAttribute(String name, String value)
     {
         String toAssert = "(attribute (name " + name + ") (value " + value + "))";
         clips.assertString(toAssert);
     }
 
+    /**
+     * Salva le risposte già date dall'utente e presenti come fatti nella working memory dell'{@link Environment} CLIPS.
+     * Tali risposte serviranno per ricostruire successivamente il profilo utente (o una sua parte, in caso di sessione parzialmente
+     * completata) nelle sessioni d'uso future del software da parte dello stesso precedente utente.
+     * @param userdata      contiene i dati dell'utente (username e password) e i riferimenti alle risorse da lui utilizzate (file personale)
+     */
     public void saveUserProfileToFile(UserData userdata)
     {
         CLEnvironmentQuery envquery = new CLEnvironmentQuery(clips);
@@ -448,6 +479,10 @@ public class VgRecSystem
         //userdata.println(")");
     }
 
+    /**
+     * Ricostruisce il profilo dell'utente sulla base delle risposte memorizzate sul suo file personale.
+     * @param userdata      contiene i dati dell'utente (username e password) e i riferimenti alle risorse da lui utilizzate (file personale)
+     */
     public void assertUserProfile(UserData userdata)
     {
         String str;
@@ -478,6 +513,10 @@ public class VgRecSystem
 
     }
 
+    /**
+     * Funzione main del software
+     * @param args
+     */
     public static void main(String[]  args)
     {
         VgRecSystem rec = new VgRecSystem();
