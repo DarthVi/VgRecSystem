@@ -76,22 +76,24 @@ public class MainMenu {
         {
             rec.assertUserProfile(ud);
 
-            CLEnvironmentQuery query = new CLEnvironmentQuery(rec.clips);
-
-            MultifieldValue mv = query.findFactSet("(?a attribute)", "eq ?a:name videogame");
-
-            boolean printableResults = true;
-
-            if(rec.hFunction(mv))
-                printableResults = rec.interact(ud);
-
-            if(printableResults)
+            if(!ModAnswerProcessor.modifyAnswers(rec.askedQuestion, rec, ud))
             {
-                rec.printSuggestions(System.out);
-                ModAnswerProcessor.modifyAnswers(rec.askedQuestion, rec, ud);
-            }
+                CLEnvironmentQuery query = new CLEnvironmentQuery(rec.clips);
 
-            rec.saveUserProfileToFile(ud);
+                MultifieldValue mv = query.findFactSet("(?a attribute)", "eq ?a:name videogame");
+
+                boolean printableResults = true;
+
+                if (rec.hFunction(mv))
+                    printableResults = rec.interact(ud);
+
+                if (printableResults) {
+                    rec.printSuggestions(System.out);
+                    ModAnswerProcessor.modifyAnswers(rec.askedQuestion, rec, ud);
+                }
+
+                rec.saveUserProfileToFile(ud);
+            }
             return true;
         }
         else if(logChoice == 2)

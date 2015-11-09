@@ -24,10 +24,11 @@ public class ModAnswerProcessor {
      * @param aQuestion     domande a cui è stata data una risposta
      * @param vg            classe principale che contiene i metodi di interazione e altre strutture dati riguardanti le domande
      * @param ud            contiene i dati dell'utente (username, password, riferimento al file del profilo utente)
+     * @return              true se le rispote sono state modificate, false altrimenti
      * @see UserData
      * @see VgRecSystem
      */
-    public static final void modifyAnswers(List<Question> aQuestion, VgRecSystem vg, UserData ud)
+    public static final boolean modifyAnswers(List<Question> aQuestion, VgRecSystem vg, UserData ud)
     {
         Scanner sc = new Scanner(System.in);
 
@@ -91,7 +92,11 @@ public class ModAnswerProcessor {
 
             if(printableResults)
                 vg.printSuggestions(System.out);
+
+            return true;
         }
+
+        return false;
 
     }
 
