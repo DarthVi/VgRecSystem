@@ -1,10 +1,12 @@
 package VgRecMain;
 
 import DataAccess.CLEnvironmentQuery;
+import DataAccess.DbManager;
 import DataAccess.UserData;
 import Questions.Attribute;
 import Questions.Question;
 import Questions.QuestionsLoader;
+import TypeCheck.TypeCheckUtils;
 import Utils.MutableInteger;
 import VgExceptions.CannotAskException;
 import Videogames.Videogame;
@@ -15,6 +17,7 @@ import net.sf.clipsrules.jni.*;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
+import java.sql.*;
 import java.util.*;
 import VgExceptions.PrecursorException;
 
@@ -33,10 +36,11 @@ public class VgRecSystem
     int questionsCounter;
     List<Question> remQuestion, askedQuestion;
     List<Integer> removedIndex;
+    Connection connection;
 
     /**
      * Costruttore: inizializza i membri della classe, carica le domande disponibili, il file .clp delle regole CLIPS
-     * nell'{@link Environment} e lo resetta.
+     * nell'{@link Environment} e lo resetta, crea la connessione al database usato per le informazioni sui videogiochi.
      */
     VgRecSystem()
     {
@@ -48,9 +52,23 @@ public class VgRecSystem
         initQuestions();
 
         clips = new Environment();
+        connection = DataAccess.DbManager.createDbConnection("vginfo.db");
+        DataAccess.DbManager.createDbVgInfo(connection);
 
         clips.loadFromResource("/clp/videogamesRS.clp");
         clips.reset();
+    }
+
+    /**
+     * Chiude la connessione al db da cui ricavare le informazioni sui vg che possono visualizzare gli utenti
+     */
+    void closeConnection()
+    {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -427,11 +445,50 @@ public class VgRecSystem
 
             for(int i = 0; i < vgList.size(); i++)
             {
-                str.println((i+1) + ") " + vgList.get(i).getTitle() + ": " + vgList.get(i).getCertainty() + "%");
+                str.println((i+1) + ") " + vgList.get(i).getTitle().replace("-", " ") + ": " + vgList.get(i).getCertainty() + "%");
             }
 
+            gameInfoVisualization(vgList, connection);
 
         }
+    }
+
+    /**
+     * Funzione usata per visualizzare le informazioni sulla trama, genere, publisher e developer di un videogioco
+     * @param gameList      lista di videogiochi consigliati
+     * @param conn          connessione al database che contiene le informazioni necessarie
+     */
+    void gameInfoVisualization(List<Videogame> gameList, Connection conn)
+    {
+        Scanner sc = new Scanner(System.in);
+        String response = null;
+
+        do {
+            System.out.println("Digitare il numero relativo alla classifica di un gioco per ottenerne le informazioni o \"e\" per continuare");
+            response = sc.nextLine();
+
+            if(TypeCheckUtils.isInteger(response))
+            {
+                int choice = Integer.parseInt(response);
+
+                if(choice >= 1 && choice <= gameList.size())
+                {
+                    System.out.println(DbManager.getVgInfos(conn, gameList.get(choice - 1).getTitle()));
+                    response = null;
+                }
+                else
+                {
+                    System.out.println("Digitare i dati corretti secondo le istruzioni fornite.");
+                    response = null;
+                }
+            }
+            else if(!response.equals("e"))
+            {
+                response = null;
+            }
+            else
+                response = "exit";
+        }while(response == null);
     }
 
     /**
@@ -522,6 +579,7 @@ public class VgRecSystem
         VgRecSystem rec = new VgRecSystem();
 
         MainMenu.menu(rec);
+        rec.closeConnection();
     }
 
 }
