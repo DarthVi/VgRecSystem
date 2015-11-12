@@ -30,7 +30,7 @@ public class DbManager {
     }
 
     /**
-     * Crea la tabella e inserisce i valori qualora essi non siano già presenti
+     * Crea la tabella e inserisce i valori qualora essi non siano giï¿½ presenti
      * @param conn      connessione al database
      */
     public static void createDbVgInfo(Connection conn)
@@ -55,30 +55,30 @@ public class DbManager {
                 stmt.executeUpdate(sql);
 
                 plotTxt = "'Sei Booker DeWitt, assoldato per ritrovare Elizabeth, una ragazza con strani poteri\n " +
-                        "che vive in una distopica città sulle nuvole governata da un dittatore.'";
+                        "che vive in una distopica cittÃ  sulle nuvole governata da un dittatore.'";
                 sql =   "INSERT INTO VgInfoTable (vgName,genre,publisher,developer,plot) " +
                         "VALUES ('Bioshock-Infinite', 'fps, action', '2K Games', 'Irrational Games', " + plotTxt +")";
                 stmt.executeUpdate(sql);
 
-                plotTxt = "'Il tuo nome è Nilin, abile agente del movimento Errorista, che opera nella futuristica Neo Parigi del 2084.\n " +
-                        "In questa città la potentissima industria Memorize controlla i ricordi delle persone. Dopo essere stata imprigionata,\n" +
+                plotTxt = "'Il tuo nome Ã¨ Nilin, abile agente del movimento Errorista, che opera nella futuristica Neo Parigi del 2084.\n " +
+                        "In questa cittÃ  la potentissima industria Memorize controlla i ricordi delle persone. Dopo essere stata imprigionata,\n" +
                         "stanno per cancellarti la memoria, ma il leader degli Erroristi ti contatta e...'";
                 sql =   "INSERT INTO VgInfoTable (vgName,genre,publisher,developer,plot) " +
                         "VALUES ('Remember-Me', 'action, platformer', 'Capcom', 'DONTNOD', " + plotTxt +")";
                 stmt.executeUpdate(sql);
 
-                plotTxt = "'Strategico in tempo reale che consiste nel guidare una civiltà attraverso le epoche classiche e medievali'";
+                plotTxt = "'Strategico in tempo reale che consiste nel guidare una civiltï¿½ attraverso le epoche classiche e medievali'";
                 sql =   "INSERT INTO VgInfoTable (vgName,genre,publisher,developer,plot) " +
                         "VALUES ('Age-of-Empires-II', 'rts', 'Microsoft', 'Ensemble Studios', " + plotTxt +")";
                 stmt.executeUpdate(sql);
 
-                plotTxt = "'Strategico a turni che consiste nel guidare una civiltà attraversio le varie epoche.'";
+                plotTxt = "'Strategico a turni che consiste nel guidare una civiltï¿½ attraversio le varie epoche.'";
                 sql =   "INSERT INTO VgInfoTable (vgName,genre,publisher,developer,plot) " +
                         "VALUES ('Civilization-V', '4X, strategico a turni', '2K Games', 'Firaxis Games', " + plotTxt +")";
                 stmt.executeUpdate(sql);
 
                 plotTxt = "'Strategico in tempo reale con componente tattica a turni, il tutto ambientato in una epoca in cui esplorare\n" +
-                        "lo Spazio è possibile.'";
+                        "lo Spazio Ã¨ possibile.'";
                 sql =   "INSERT INTO VgInfoTable (vgName,genre,publisher,developer,plot) " +
                         "VALUES ('Sins-Of-Solar-Empire', '4X, rts, strategico a turni', 'Stardock Corporation, Kalypso Media', 'Ironclad Games Corporation', " + plotTxt +")";
                 stmt.executeUpdate(sql);
@@ -117,7 +117,7 @@ public class DbManager {
                         "VALUES ('Dark-Souls', 'gdr', 'Bandai Namco', 'From Software', " + plotTxt +")";
                 stmt.executeUpdate(sql);
 
-                plotTxt = "'Osservi te stesso mentre commetti un omicidio, ma sai di non essere cosciente e di essere manipolato da altre entità.\n" +
+                plotTxt = "'Osservi te stesso mentre commetti un omicidio, ma sai di non essere cosciente e di essere manipolato da altre entitï¿½.\n" +
                         "Dovrai indagare per comprendere il tutto'";
                 sql =   "INSERT INTO VgInfoTable (vgName,genre,publisher,developer,plot) " +
                         "VALUES ('Fahrenheit', 'avventura grafica', 'Atari, Aspyr Media', 'Quantic Dream', " + plotTxt +")";
@@ -134,7 +134,7 @@ public class DbManager {
                         "VALUES ('The-Walking-Dead', 'avventura grafica', 'Telltale Games', 'Telltale Games', " + plotTxt +")";
                 stmt.executeUpdate(sql);
 
-                plotTxt = "'Sei Jodie, una ragazza che fin dalla sua nascita è legata ad una entità. Rivivi 15 anni della vita di Jodie\n" +
+                plotTxt = "'Sei Jodie, una ragazza che fin dalla sua nascita Ã¨ legata ad una entitÃ . Rivivi 15 anni della vita di Jodie\n" +
                         "e le sue ultime vicende.'";
                 sql =   "INSERT INTO VgInfoTable (vgName,genre,publisher,developer,plot) " +
                         "VALUES ('Beyond-Two-Souls', 'avventura grafica', 'Sony', 'Quantic Dream', " + plotTxt +")";
@@ -148,6 +148,13 @@ public class DbManager {
         }
     }
 
+    /**
+     * Ritorna un'unica stringa contenente le informazioni su un videogioco specifico specificato dal secondo parametro.
+     * Sfrutta la connessione al database specificata come primo parametro.
+     * @param c         {@link Connection}
+     * @param vgName    nome del gioco di cui si vogliono le informazioni
+     * @return          informazioni del gioco richiesto
+     */
     public static String getVgInfos(Connection c, String vgName)
     {
         Statement stmt = null;
