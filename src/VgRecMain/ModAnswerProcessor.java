@@ -32,7 +32,7 @@ public class ModAnswerProcessor {
     {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Riepilogo delle risposte date, è possibile scegliere se modificarle: ");
+        System.out.println("Riepilogo delle risposte date, e' possibile scegliere se modificarle: ");
 
         for(int i = 0; i < aQuestion.size(); i++)
         {

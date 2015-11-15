@@ -90,7 +90,7 @@
 
 (deffacts videogame-rules
 
-        ;rules for picking the appropriate genre
+        ;regole per scegliere il genere appropriato
         (rule (if main-game-purpose is relax and patience is basso)
               (then best-genre is action with certainty 60))
 
@@ -161,19 +161,25 @@
               (then best-genre is avventura-grafica with certainty 60))
 
         (rule (if gameplay-style is lento)
+              (then best-genre is puzzle-game with certainty 30))
+
+        (rule (if gameplay-style is lento)
               (then best-genre is interactive-fiction with certainty 50))
 
         (rule (if gameplay-style is bilanciato)
-              (then best-genre is turn-based-strategy with certainty 60))
+              (then best-genre is turn-based-strategy with certainty 30))
 
         (rule (if gameplay-style is bilanciato)
-              (then best-genre is 4X with certainty 80))
+              (then best-genre is 4X with certainty 30))
 
         (rule (if gameplay-style is bilanciato)
               (then best-genre is avventura-grafica with certainty 50))
 
         (rule (if gameplay-style is bilanciato)
               (then best-genre is rts with certainty 40))
+
+        (rule (if gameplay-style is bilanciato)
+              (then best-genre is fps with certainty 35))
 
         (rule (if gameplay-style is frenetico)
               (then best-genre is rts with certainty 80))
@@ -185,7 +191,10 @@
               (then best-genre is 4X with certainty 30))
 
         (rule (if gameplay-style is frenetico)
-              (then best-genre is action with certainty 30))
+              (then best-genre is action with certainty 60))
+
+        (rule (if gameplay-style is frenetico)
+              (then best-genre is fps with certainty 55))
 
         ;favourite-genre is
 
@@ -225,7 +234,7 @@
         (rule (if favourite-genre is avventura-grafica)
               (then best-genre is avventura-grafica with certainty 90))
 
-        ;plot-quality and user-plot-feature weight in genre's selection
+        ;regole che valutano il peso di plot-quality e user-plot-feature nella selezione del genere migliore per l'utente
 
         (rule (if user-plot-feature is imprevedibilita)
               (then best-genre is avventura-grafica with certainty 70))
@@ -326,6 +335,18 @@
         (rule (if plot-quality is importante and gaming-experience is medio)
               (then best-genre is puzzle-game with certainty 20))
 
+        (rule (if plot-quality is importante and gaming-experience is basso)
+              (then best-genre is avventura-grafica with certainty 50))
+
+        (rule (if plot-quality is importante and gaming-experience is basso)
+              (then best-genre is fps with certainty 40))
+
+        (rule (if plot-quality is importante and gaming-experience is basso)
+              (then best-genre is action with certainty 40))
+
+        (rule (if plot-quality is importante and gaming-experience is basso)
+              (then best-genre is platformer with certainty 40))
+
         (rule (if plot-quality is irrilevante and patience is alto)
               (then best-genre is rts with certainty 80))
 
@@ -350,7 +371,7 @@
         (rule (if plot-quality is irrilevante and patience is medio)
               (then best-genre is turn-based-strategy with certainty 40))
 
-        ;rules for picking up difficulty level and learning curve
+        ;regole per scegliere il livello di difficoltà e la curva di apprendimento
         (rule (if gaming-experience is basso)
               (then best-difficulty is easy with certainty 95))
 
@@ -386,6 +407,9 @@
 
         (rule (if gaming-experience is alto)
               (then best-difficulty is easy with certainty 20))
+
+        (rule (if favourite-genre is avventura-grafica)
+              (then best-difficulty is easy with certainty 60))
 
         (rule (if patience is basso)
               (then best-learning-curve is quick-growth with certainty 95))
@@ -459,7 +483,7 @@
         (rule (if user-learning-attitude is non-so)
               (then best-learning-curve is quick-growth with certainty 40))
 
-        ;rules for picking up best-plot
+        ;regole per scegliere la qualità di trama appropriata
         (rule (if main-game-purpose is relax and plot-quality is importante)
               (then best-plot is excellent with certainty 70))
 
@@ -595,7 +619,7 @@
         (rule (if favourite-genre is gdr)
               (then best-plot is no-plot with certainty 10))        
 
-        ;rules for picking up audio quality
+        ;regole per scegliere la qualità audio
         (rule (if user-audio-quality is piu'-di-20)
               (then best-audio is excellent with certainty 70))
 
@@ -641,7 +665,7 @@
         (rule (if user-audio-quality is meno-di-10)
               (then best-audio is excellent with certainty 20))
 
-        ;rules for picking up graphics
+        ;regole che influenzano la scelta sulla grafica
 
         (rule (if graphics-detail-quality is realismo)
               (then best-graphics is excellent with certainty 80))
@@ -766,7 +790,7 @@
         (rule (if gaming-experience is medio)
               (then best-graphics is excellent with certainty 40))
         
-        ;rules for picking up best AI
+        ;regole che influenzano la scelta del tipo di AI (reattività dei nemici, ostacoli da affrontare per raggiungere gli obiettivi di gioco, ecc)
 
         (rule (if ai-implementation is si)
               (then best-AI is challenging with certainty 50))
@@ -960,7 +984,7 @@
         (rule (if patience is alto)
               (then best-AI is tanked with certainty 20))
 
-        ;rules for picking up best-world-design
+        ;regole per il miglior world building
         (rule (if favourite-world-build-expert is open-world)
               (then best-world-design is open-world with certainty 80))
 
@@ -974,13 +998,13 @@
               (then best-world-design is open-world with certainty 20))
 
         (rule (if favourite-world-build-expert is indifferente)
-              (then best-world-design is open-world with certainty 10))
+              (then best-world-design is open-world with certainty 40))
 
         (rule (if favourite-world-build-expert is indifferente)
-              (then best-world-design is closed-world with certainty 10))
+              (then best-world-design is closed-world with certainty 40))
 
         (rule (if favourite-world-build-expert is indifferente)
-              (then best-world-design is indifferente with certainty 90))
+              (then best-world-design is indifferente with certainty 60))
 
         (rule (if favourite-world-build-novice is si)
               (then best-world-design is open-world with certainty 80))
@@ -1030,7 +1054,7 @@
         (rule (if favourite-genre is fps)
               (then best-world-design is open-world with certainty 40))
 
-        ;rules for picking up best gameplay
+        ;regole per determinare le migliori meccaniche di gioco e velocità di gameplay
 
         (rule (if gameplay-style is frenetico)
               (then best-gameplay is fast-paced with certainty 80))
