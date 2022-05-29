@@ -12,7 +12,7 @@ public class CLEnvironmentQuery {
         env = e;
     }
 
-    public MultifieldValue findFactSet(String template, String query)
+    public MultifieldValue findFactSet(String template, String query) throws CLIPSException
     {
         if(query != null)
             return (MultifieldValue) env.eval("(find-all-facts (" + template + ") (" + query + "))");
@@ -20,7 +20,7 @@ public class CLEnvironmentQuery {
             return (MultifieldValue) env.eval("(find-all-facts (" + template + ") TRUE)");
     }
 
-    public MultifieldValue getAllFacts(String moduleName)
+    public MultifieldValue getAllFacts(String moduleName) throws CLIPSException
     {
         String evalStr = "(get-fact-list " + moduleName + ")";
 

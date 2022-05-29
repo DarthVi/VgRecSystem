@@ -23,7 +23,7 @@ public class VgRecSystem
     private Map<String, Question>[] questionByGenre;
     private int questionsCounter;
 
-    VgRecSystem()
+    VgRecSystem() throws CLIPSException
     {
         questionsCounter = 0;
         rn = new Random();
@@ -67,7 +67,8 @@ public class VgRecSystem
         return allFalse.get(sel);
     }
 
-    private Question selectQuestion(MutableInteger attributeIndex) throws PrecursorException, CannotAskException
+    private Question selectQuestion(MutableInteger attributeIndex) throws PrecursorException, CannotAskException,
+            CLIPSException
     {
         Question chosenQ = null;
         List<Question> valList = null;
@@ -114,7 +115,8 @@ public class VgRecSystem
 
         fv = (FactAddressValue) mv.get(0);
         try {
-            String valueSlot = ((LexemeValue) fv.getFactSlot("value")).lexemeValue();
+            //String valueSlot = ((LexemeValue) fv.getFactSlot("value")).lexemeValue();
+            String valueSlot = ((LexemeValue) Environment.getFactSlot(fv, "value")).toString();
 
             if(parts[2].equals(valueSlot))
             {
@@ -145,7 +147,8 @@ public class VgRecSystem
             try
             {
 
-                float certainty = ((NumberValue) fv.getFactSlot("certainty")).floatValue();
+                //float certainty = ((NumberValue) fv.getFactSlot("certainty")).floatValue();
+                float certainty = ((NumberValue) Environment.getFactSlot(fv, "certainty")).floatValue();
                 certainty /= 100;
                 float val = 1/(questionsCounter * 0.115f) * certainty;
 
@@ -317,7 +320,7 @@ public class VgRecSystem
             return false;
     }
 
-    void interact()
+    void interact() throws CLIPSException
     {
         MutableInteger aIndex = new MutableInteger();
         Question q = null;
@@ -359,6 +362,10 @@ public class VgRecSystem
                     removeQuestion(keyword);
                     precursorSatisfied = false;
                 }
+                catch(CLIPSException e)
+                {
+                    e.printStackTrace();
+                }
             }while(!precursorSatisfied && questionsCounter < NUMBER_OF_QUESTIONS);
 
             if(precursorSatisfied)
@@ -399,7 +406,7 @@ public class VgRecSystem
 
     }
 
-    private void printSuggestions(PrintStream str)
+    private void printSuggestions(PrintStream str) throws CLIPSException
     {
         CLEnvironmentQuery query = new CLEnvironmentQuery(clips);
         MultifieldValue mv = query.findFactSet("(?a attribute)", "eq ?a:name videogame");
@@ -412,8 +419,10 @@ public class VgRecSystem
                 for (int i = 0; i < mv.size(); i++)
                 {
                     FactAddressValue fv = (FactAddressValue) mv.get(i);
-                    float certRankingVal = ((NumberValue) fv.getFactSlot("certainty")).floatValue();
-                    String gameName = ((LexemeValue) fv.getFactSlot("value")).lexemeValue();
+                    //float certRankingVal = ((NumberValue) fv.getFactSlot("certainty")).floatValue();
+                    float certRankingVal = ((NumberValue) Environment.getFactSlot(fv, "certainty")).floatValue();
+                    //String gameName = ((LexemeValue) fv.getFactSlot("value")).lexemeValue();
+                    String gameName = ((LexemeValue) Environment.getFactSlot(fv, "value")).toString();
                     vgList.add(new Videogame(gameName, certRankingVal));
                 }
             }
@@ -436,7 +445,7 @@ public class VgRecSystem
         }
     }
 
-    private void assertAttribute(String name, String value)
+    private void assertAttribute(String name, String value) throws CLIPSException
     {
         String toAssert = "(attribute (name " + name + ") (value " + value + "))";
         clips.assertString(toAssert);
@@ -444,12 +453,19 @@ public class VgRecSystem
 
     public static void main(String[]  args)
     {
-        VgRecSystem rec = new VgRecSystem();
         //System.out.println(rec.clips.eval("(facts)").toString());
         //System.out.println(rec.clips.eval("(get-focus)").toString());
         //System.out.println(rec.clips.eval("(get-deftemplate-list)").toString());
-        rec.interact();
-        rec.printSuggestions(System.out);
+        try {
+            VgRecSystem rec = new VgRecSystem();
+            rec.interact();
+            rec.printSuggestions(System.out);
+        }
+        catch (CLIPSException e)
+        {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
         //Question test line: System.out.println(rec.questionByGenre[Attribute.valueOf(Attribute.BEST_GENRE)].get("patience"));
     }
 
